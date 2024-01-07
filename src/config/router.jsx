@@ -1,16 +1,26 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Landing from '../pages/landing';
-import Login from '../components/login/Login';
+import LandingPage from '../pages/landing/LandingPage';
+import ContactoPage from '../pages/contacto/ContactoPage';
+import CategoriasPage from '../pages/categorias/CategoriasPage';
+import LoginPage from '../pages/login/Login';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing />,
+    element: <LandingPage />,
+  },
+  {
+    path: "/categorias",
+    element: <CategoriasPage />,
+  },
+  {
+    path: "/contacto",
+    element: <ContactoPage />,
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPage />,
   }
 ]);
 

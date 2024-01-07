@@ -15,8 +15,8 @@ body {
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  color: #111; /* Default text color */
-  background-color: #fff; /* Default background color */
+  color: #111;
+  background-color: #f3f3f3;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   width: 100vw;
@@ -31,4 +31,22 @@ body {
 
 div.MuiInputBase-root {
   border-radius: 1rem;
+}
+
+.Page {
+  animation: fadeIn 600ms ease-in-out;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

@@ -1,0 +1,40 @@
+.Categoria {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 5rem;
+}
+
+.Categoria-Titulo {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    align-items: center;
+}
+
+
+.Categoria-Titulo svg {
+    scale: 1.5;
+}
+
+p.Categoria-Titulo-Texto {
+    font-family: 'Nunito', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    /* identical to box height */
+    display: flex;
+    align-items: center;
+    color: #000000;
+    margin: 0 0 1rem 0;
+}
+
+.Categorias-List {
+    margin: 1rem 0;
+    padding: 1rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    cursor: pointer;
+}

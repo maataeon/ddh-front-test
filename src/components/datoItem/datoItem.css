@@ -1,0 +1,19 @@
+.DatoItem {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+svg.DatoItem-Icon {
+    scale: 1;
+}
+
+p.DatoItem-Label {
+    font-weight: 600;
+    width: 7rem;
+}
+
+p.DatoItem-Value {
+    
+}

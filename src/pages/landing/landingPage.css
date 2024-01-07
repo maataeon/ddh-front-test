@@ -1,0 +1,57 @@
+.Landing-Portada {
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+  overflow: hidden;
+}
+
+.Portada-BackgroundImage {
+  filter: contrast(0.5) brightness(1.5) opacity(0.1);
+  position: absolute;
+  width: 100%;
+}
+
+p.Portada-Titulo {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 87px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  min-width: 60rem;
+  max-width: 60rem;
+  margin: 3rem auto;
+}
+
+p.Portada-Leyenda {
+  font-family: 'Roboto Flex';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 56px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;  
+  min-width: 45rem;
+  max-width: 45rem;
+  margin: 2rem auto;
+}
+
+.Portada-Action {
+  display: flex;
+  text-decoration: none;
+  justify-content: center;
+}
+
+button.Action-Button {
+  margin: 3rem auto;
+  font-size: 1.5rem;
+  padding: 0.5rem 2rem;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+}

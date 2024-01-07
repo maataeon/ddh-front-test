@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginThunk, setPassword, setUsername } from './loginSlice';
 import './login.css';
 import { Button, Card, TextField, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Login = () => {
 
@@ -38,7 +39,9 @@ const Login = () => {
 
   return <div className="Login-Container">
     <Card className="Login-Card" variant="outlined" sx={{ width: 300 }}>
-      <img src={ddhLogo} />
+      <Link to="/">
+        <img src={ddhLogo} className="Login-Logo" />
+      </Link>
       <div className="Login-Title">
         <Typography align="center" fontSize="2rem">Ingresar</Typography>
         <Typography align="center">Sistema de cotización</Typography>
@@ -47,21 +50,27 @@ const Login = () => {
         fullWidth
         variant="outlined"
         size="small"
+        name="ddhusuarioinput"
+        label="Usuario"
         placeholder="Usuario"
         type="text"
         value={username}
         onChange={handleUsernameInputChange}
         startDecorator={<PersonIcon />}
+        autoComplete="off"
       />
       <TextField
         fullWidth
         variant="outlined"
         size="small"
+        name="ddhcontraseñainput"
+        label="Contraseña"
         placeholder="Contraseña"
         type="password"
         value={password}
         onChange={handlePasswordInputChange}
         startDecorator={<PasswordIcon />}
+        autoComplete="off"
       />
       <Button
         variant="contained"

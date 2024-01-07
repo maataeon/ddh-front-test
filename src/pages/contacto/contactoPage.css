@@ -1,0 +1,38 @@
+.Contacto {
+    display: flex;
+    margin: 2rem 4rem;
+    gap: 5rem;
+    justify-content: center;
+}
+
+.Contacto-Panel {
+    display: flex;
+    flex-direction: column;
+    width: 25rem;
+}
+
+.Contacto-Titulo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+svg.Titulo-Icon {
+    scale: 1.25;
+}
+
+p.Titulo-Texto {
+    font-family: 'Nunito', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.Contacto-InputItem {
+    margin: 1rem 0;
+}
