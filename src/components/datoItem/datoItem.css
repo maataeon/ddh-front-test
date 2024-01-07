@@ -3,6 +3,9 @@
     gap: 1rem;
     padding: 1rem;
     margin: 1rem 0;
+    background: #fff;
+    border-radius: 1rem;
+    border: solid #00000030 2px;
 }
 
 svg.DatoItem-Icon {

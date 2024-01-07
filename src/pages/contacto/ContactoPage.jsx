@@ -43,6 +43,7 @@ const ContactoPage = () => {
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              className="Theme-TextField"
               variant="outlined"
               size="small"
               label="Nombre completo"
@@ -54,6 +55,7 @@ const ContactoPage = () => {
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              className="Theme-TextField"
               variant="outlined"
               size="small"
               label="E-mail"
@@ -65,6 +67,7 @@ const ContactoPage = () => {
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              className="Theme-TextField"
               variant="outlined"
               size="small"
               label="Telefono"
@@ -79,6 +82,7 @@ const ContactoPage = () => {
               fullWidth
               multiline
               rows={5}
+              className="Theme-TextField"
               variant="outlined"
               size="small"
               label="Mensaje"

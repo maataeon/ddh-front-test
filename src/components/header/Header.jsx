@@ -15,7 +15,7 @@ const Header = () => {
         <img src={ddhLogo} className="Header-Logo" />
       </Link>
       <TextField
-        className="Header-InputSearch"
+        className="Header-InputSearch Theme-TextField"
         variant="outlined"
         size="small"
         placeholder="Buscar producto"
