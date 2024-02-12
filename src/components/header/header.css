@@ -1,6 +1,6 @@
 .Header {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  height: 7.125rem;
+  height: var(--header-height);
   display: flex;
   box-sizing: border-box;
   padding: 1rem;
@@ -31,10 +31,6 @@
   border: solid transparent 3px;
   text-decoration: none;
   color: #222;
-}
-
-.Navbar-Item:visited {
-color: #222;
 }
 
 .Navbar-Item:hover {

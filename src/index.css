@@ -7,6 +7,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --header-height: 6rem;
 }
 
 body {
@@ -19,15 +20,24 @@ body {
   background-color: #f7f7f7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  width: 100vw;
-  height: 100vh;
 }
 
 #root {
-  width: 100vw;
-  height: 100vh;
 }
 
+/*
+  Para normalizar el comportamiento visual de los
+  elementos a que utiliza Link de react router.
+*/
+a {
+  display: flex;
+}
+
+a:focus, a:visited, a:link, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+/*---------------------------------------*/
 
 div.MuiInputBase-root {
   border-radius: 1rem;
@@ -35,10 +45,12 @@ div.MuiInputBase-root {
 
 .Page {
   animation: fadeIn 600ms ease-in-out;
-  width: 100vw;
-  height: 100vh;
+  height: calc(100vh - var(--header-height));
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding: 2rem 5rem;
+  overflow-y: scroll;
 }
 
 @keyframes fadeIn {

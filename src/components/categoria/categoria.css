@@ -1,16 +1,17 @@
 .CategoriaItem {
     display: flex;
-    width: 16rem;
+    width: 13rem;
     flex-direction: column;
     align-items: stretch;
     border-radius: 1rem;
     overflow: hidden;
     border: solid #00000030 3px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 p.CategoriaItem-Label {
-    font-size: 1.5rem;
+    font-size: 1rem;
     text-align: center;
     margin: 1rem 0;
 }

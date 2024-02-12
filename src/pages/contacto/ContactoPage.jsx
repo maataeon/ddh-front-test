@@ -1,5 +1,4 @@
 import { TextField, Typography } from "@mui/material";
-import Header from "../../components/header/Header";
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import "./contactoPage.css"
@@ -10,7 +9,6 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 const ContactoPage = () => {
   return (
     <div className="Page">
-      <Header />
       <div className="Contacto">
         <div className="Contacto-Panel">
           <div className="Contacto-Titulo">

@@ -1,0 +1,45 @@
+.Producto-Container {
+    display: flex;
+    flex-direction: column;
+}
+
+.Producto {
+    display: flex;
+    justify-content: space-around;
+}
+
+.Producto-Imagenes-Portada {
+    display: flex;
+    justify-content: center;
+    height: 19rem;
+    margin: 1rem 0;
+}
+
+.Producto-Imagenes-Lista {
+    margin: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.Volver {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0 2rem 0;
+    align-items: center;
+}
+
+
+.Volver svg {
+    scale: 1.5;
+}
+
+p.Volver-Texto {
+    font-family: 'Nunito', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
