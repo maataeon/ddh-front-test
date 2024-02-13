@@ -11,14 +11,17 @@
 .Producto-Imagenes-Portada {
     display: flex;
     justify-content: center;
-    height: 19rem;
     margin: 1rem 0;
+    width: 22rem;
+    flex-direction: column;
+    padding: 0 4rem;
 }
 
 .Producto-Imagenes-Lista {
     margin: 1rem;
     display: flex;
     gap: 1rem;
+    justify-content: center;
 }
 
 .Volver {

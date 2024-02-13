@@ -76,6 +76,8 @@ const Login = () => {
         variant="contained"
         className="Login-IngresarButton"
         onClick={handleLogin}>Ingresar</Button>
+      
+      <Link to="/registrarse" className="Login-RegistrarseLink">Registrarse</Link>
     </Card>
   </div>;
 };

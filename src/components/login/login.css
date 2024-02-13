@@ -35,3 +35,11 @@ button.Login-IngresarButton {
   width: 10rem;
   margin: 2rem 0;
 }
+
+
+a.Login-RegistrarseLink {
+  color: #F6831F;
+}
+a.Login-RegistrarseLink:hover {
+  text-decoration: underline;
+}

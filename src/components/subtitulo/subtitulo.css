@@ -1,0 +1,21 @@
+.Subtitulo {
+    display: flex;
+    gap: 1rem;
+    margin: .5rem 0 1rem 0;
+    align-items: center;
+}
+
+
+.Subtitulo svg {
+    scale: 1.25;
+}
+
+p.Subtitulo-Texto {
+    font-family: 'Nunito', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}

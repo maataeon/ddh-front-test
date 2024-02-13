@@ -1,13 +1,15 @@
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import LandingPage from "./pages/landing/LandingPage";
-import LoginPage from "./pages/login/Login";
+import LoginPage from "./pages/login/LoginPage";
 import ContactoPage from "./pages/contacto/ContactoPage";
 import CategoriasPage from "./pages/categorias/CategoriasPage";
 import Header from "./components/header/Header";
 import "./app.css";
 import ProductosPage from "./pages/productos/ProductosPage";
 import ProductoPage from "./pages/productos/producto/ProductoPage";
+import RegistrarsePage from "./pages/registarse/RegistrarsePage";
+import { useEffect, useState } from "react";
 
 /*
   El primer nivel deben ser pages.
@@ -17,9 +19,19 @@ import ProductoPage from "./pages/productos/producto/ProductoPage";
 
 */
 
+const headerExcludedPaths = ['/login', '/registrarse'];
+
 const App = () => {
-  return (<div className="App">
-    <Header />
+  const location = useLocation();
+  const [showHeader, setShowHeader] = useState(false);
+
+  useEffect(() => {
+    const isExcluded = headerExcludedPaths.includes(location.pathname);
+    setShowHeader(!isExcluded);
+  }, [location.pathname]);
+
+  return (<div className={`App${showHeader ? "" : " Headerless"}`}>
+    { showHeader && <Header /> }
     <Routes >
       <Route index element={<LandingPage />} />
       <Route path="categorias" element={<CategoriasPage />} />
@@ -29,6 +41,7 @@ const App = () => {
       <Route path="productos/:productoId" element={<ProductoPage />} />
       <Route path="contacto" element={<ContactoPage />} />
       <Route path="login" element={<LoginPage />} />
+      <Route path="registrarse" element={<RegistrarsePage />} />
     </Routes >
   </div>
   )

@@ -1,14 +1,22 @@
+.LandingPage-Background {
+  background-image: url(/src/assets/background-landing.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -10;
+  filter: contrast(0.5) brightness(1.5) opacity(0.4);
+}
+
 .Landing-Portada {
   display: flex;
   flex-direction: column;
   max-height: 70vh;
   overflow: hidden;
-}
-
-.Portada-BackgroundImage {
-  filter: contrast(0.5) brightness(1.5) opacity(0.1);
-  position: absolute;
-  width: 100%;
 }
 
 p.Portada-Titulo {
@@ -35,7 +43,7 @@ p.Portada-Leyenda {
   display: flex;
   align-items: center;
   text-align: center;
-  color: #000000;  
+  color: #000000;
   min-width: 45rem;
   max-width: 45rem;
   margin: 2rem auto;

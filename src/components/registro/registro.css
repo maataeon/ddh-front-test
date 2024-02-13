@@ -1,0 +1,42 @@
+.Registro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.Registro-Card {
+    padding: 1rem 3rem;
+    width:60rem;
+}
+
+.Registro-Datos {
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+.Registro-Comercial,
+.Registro-Contacto {
+    flex-grow: 1;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.Registro-InputItem {
+    padding: 0 2rem;
+}
+
+.Registro-Logo {
+    margin: 1rem auto;
+    justify-content: center;
+}
+
+.Registro-Logo img {
+    width: 10rem;
+}
+
+.Registro-Action {
+    display: flex;
+    justify-content: flex-end;
+    margin: 3% 2rem 1rem 0;
+}

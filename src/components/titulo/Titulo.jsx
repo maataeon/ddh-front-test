@@ -12,7 +12,7 @@ const Titulo = ({ icon, children }) => {
 };
 
 Titulo.propTypes = {
-  icon: PropTypes.node.isRequired,
+  icon: PropTypes.node,
   children: PropTypes.string.isRequired,
 };
 

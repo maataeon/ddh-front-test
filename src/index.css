@@ -50,7 +50,12 @@ div.MuiInputBase-root {
   flex-direction: column;
   box-sizing: border-box;
   padding: 2rem 5rem;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+
+.Headerless .Page {
+  height: 100vh;
 }
 
 @keyframes fadeIn {
@@ -64,8 +69,12 @@ div.MuiInputBase-root {
 }
 
 .Theme-TextField .MuiInputBase-root {
-  background-color: #fff;
+  background-color: #FFFFFF;
   overflow: hidden;
   outline: 2px solid #00000030;
   outline-offset: -2px;
+}
+
+.Theme-TextField label {
+  background-color: #FFFFFF;
 }
