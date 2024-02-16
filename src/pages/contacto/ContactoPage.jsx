@@ -1,4 +1,4 @@
-import { TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import "./contactoPage.css"
@@ -6,7 +6,34 @@ import DatoItem from "../../components/datoItem/DatoItem";
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import { useState } from "react";
 const ContactoPage = () => {
+  const [nombre, setNombre] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const [isNombreValid, setIsNombreValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isTelefonoValid, setIsTelefonoValid] = useState(false);
+  const [isMensajeValid, setIsMensajeValid] = useState(false);
+
+  const handleRegistrarse = () => {
+    const consulta = `DHH - Consulta
+Nombre y Apellido: ${nombre}
+E-mail: ${email}
+Teléfono: ${telefono}
+    
+${mensaje}`;
+    const urlEncodedMensaje = encodeURIComponent(consulta);
+    console.log(urlEncodedMensaje);
+    const whatsappUrl = `https://wa.me/5491157508133?text=${urlEncodedMensaje}`;
+    window.location.href = whatsappUrl;
+  }
+  const isFormValid = () => {
+    return isNombreValid && isEmailValid && isTelefonoValid && isMensajeValid;
+  };
+
   return (
     <div className="Page">
       <div className="Contacto">
@@ -41,6 +68,7 @@ const ContactoPage = () => {
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              required
               className="Theme-TextField"
               variant="outlined"
               size="small"
@@ -48,11 +76,17 @@ const ContactoPage = () => {
               placeholder="Nombre y Apellido"
               type="text"
               autoComplete="off"
+              value={nombre}
+              onChange={(e) => {
+                setNombre(e.target.value);
+                setIsNombreValid(!!e.target.value.trim());
+              }}
             />
           </div>
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              required
               className="Theme-TextField"
               variant="outlined"
               size="small"
@@ -60,11 +94,17 @@ const ContactoPage = () => {
               placeholder="Ej: usuario@sitio.com"
               type="text"
               autoComplete="off"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsEmailValid(!!e.target.value.trim());
+              }}
             />
           </div>
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              required
               className="Theme-TextField"
               variant="outlined"
               size="small"
@@ -73,11 +113,17 @@ const ContactoPage = () => {
               placeholder="Ej: +351 687 6871"
               type="text"
               autoComplete="off"
+              value={telefono}
+              onChange={(e) => {
+                setTelefono(e.target.value);
+                setIsTelefonoValid(!!e.target.value.trim());
+              }}
             />
           </div>
           <div className="Contacto-InputItem">
             <TextField
               fullWidth
+              required
               multiline
               rows={5}
               className="Theme-TextField"
@@ -87,7 +133,20 @@ const ContactoPage = () => {
               placeholder="Escriba aquí su mensaje"
               type="text"
               autoComplete="off"
+              value={mensaje}
+              onChange={(e) => {
+                setMensaje(e.target.value);
+                setIsMensajeValid(!!e.target.value.trim());
+              }}
             />
+          </div>
+          <div className="Contacto-Action">
+            <Button
+              variant="contained"
+              className="Contacto-Button"
+              disabled={!isFormValid()}
+              onClick={handleRegistrarse}>Enviar</Button>
+            <Typography color={isFormValid() ? "textSecondary" : "error"}>* Campos requeridos</Typography>
           </div>
         </div>
 

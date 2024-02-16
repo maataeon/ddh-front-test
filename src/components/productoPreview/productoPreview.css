@@ -6,3 +6,8 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.Item-Portada,
+.Item-Acciones {
+    display: flex;
+}

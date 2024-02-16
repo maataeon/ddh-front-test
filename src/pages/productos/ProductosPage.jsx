@@ -11,17 +11,23 @@ import categoriasList from '../../assets/categoriasList';
 const ProductosPage = () => {
   const { categoriaId } = useParams(); // si es null todas las categorias
   const [categoria, setCategoria] = useState(null);
+  const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    console.log({categoriasList});
-    setCategoria(categoriasList.find(categoria => categoria.id === categoriaId));
+    console.log({ categoriasList });
+    if (categoriaId) {
+      setCategoria(categoriasList.find(categoria => categoria.id === categoriaId));
+      setProductos(productosList.filter(producto => producto.categoriaId === categoriaId))
+    } else {
+      setProductos(productosList);
+    }
   }, [])
 
   return (
     <div className="Page">
       <Titulo icon={<ShoppingCartOutlinedIcon />}>{categoria ? `${categoria.label} / Productos` : 'Lista de productos'}</Titulo>
       <div className="ProductosPage-List">
-        {productosList.map(producto => <ProductoPreview key={producto.id} producto={producto} />)}
+        {productos.map(producto => <ProductoPreview key={producto.id} producto={producto} />)}
       </div>
     </div>
   );

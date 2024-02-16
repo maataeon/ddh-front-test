@@ -36,3 +36,11 @@ p.Titulo-Texto {
 .Contacto-InputItem {
     margin: 1rem 0;
 }
+
+.Contacto-Action {
+    display: flex;
+    justify-content: flex-end;
+    margin: 3% 2rem 1rem 0;
+    flex-direction: column;
+    align-items: flex-end;
+}
