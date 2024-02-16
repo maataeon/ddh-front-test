@@ -1,7 +1,7 @@
 import "./categoriasPage.css";
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import Categoria from "../../components/categoria/Categoria";
-import Titulo from "../../components/Titulo/Titulo";
+import Titulo from "../../components/titulo/Titulo";
 import categoriasList from "../../assets/categoriasList";
 
 const CategoriasPage = () => {
