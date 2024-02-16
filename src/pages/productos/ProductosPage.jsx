@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ProductoPreview from '../../components/productoPreview/ProductoPreview';
 import productosList from '../../assets/productosList';
-import Titulo from '../../components/Titulo/Titulo';
+import Titulo from '../../components/titulo/Titulo';
 import './productosPage.css';
 import { useEffect, useState } from 'react';
 import categoriasList from '../../assets/categoriasList';

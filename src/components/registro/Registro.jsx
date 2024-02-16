@@ -1,5 +1,5 @@
 import { Button, Card, TextField } from "@mui/material";
-import Titulo from "../Titulo/Titulo";
+import Titulo from "../titulo/Titulo";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import "./registro.css";
 import Subtitulo from "../subtitulo/Subtitulo";
