@@ -1,0 +1,12 @@
+.UsuariosFiltro-Inputs {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.UsuariosFiltro-ButtonBox {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0 2rem 0;
+}

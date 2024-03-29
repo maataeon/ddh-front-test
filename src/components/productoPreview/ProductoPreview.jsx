@@ -9,9 +9,11 @@ import PropTypesShapes from "../../config/PropTypesShapes";
 const ProductoPreview = ({ producto }) => {
   return (
     <Link to={`./${producto.id}`} className="Item">
-      <div className="Item-Portada"><PhotoOutlinedIcon /></div>
-      <div className="Item-Titulo">{producto.titulo}</div>
-      <div className="Item-Precio">Compra: ${producto?.precio?.compra}/kg | Venta: ${producto?.precio?.venta}/kg</div>
+      <div className="Item-Titulo">
+        <div className="Item-Portada"><PhotoOutlinedIcon /></div>
+        <div>{producto.nombre}</div>
+      </div>
+      <div className="Item-Precio">Compra: ${producto?.precio?.compra}/kg</div>
       <div className="Item-Acciones">
         <CreateOutlinedIcon />
         <DeleteOutlineOutlinedIcon />

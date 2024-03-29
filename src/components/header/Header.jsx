@@ -1,13 +1,29 @@
+import PropTypes from 'prop-types';
 import { InputAdornment, TextField, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ddhLogo from "../../assets/ddh-logo.png";
 import SearchIcon from '@mui/icons-material/Search';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import './header.css'
+import { useState } from 'react';
 
-const Header = () => {
+const Header = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearchChange = (event) => {
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onSearch(searchTerm);
+      navigate(`/productos?q=${encodeURIComponent(searchTerm)}`);
+    }
+  };
   return (
 
     <div className="Header">
@@ -15,17 +31,21 @@ const Header = () => {
         <img src={ddhLogo} className="Header-Logo" />
       </Link>
       <TextField
-        className="Header-InputSearch Theme-TextField"
-        variant="outlined"
-        size="small"
-        placeholder="Buscar producto"
-        type="text"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start"><SearchIcon /></InputAdornment>
-          )
-        }}
-      />
+      variant="outlined"
+      size="small"
+      placeholder="Buscar producto"
+      type="text"
+      value={searchTerm}
+      onChange={handleSearchChange}
+      onKeyUp={handleKeyPress}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+    />
       <div className="Navbar">
         <Link to="/categorias" className="Navbar-Item">
           <CategoryOutlinedIcon />
@@ -43,5 +63,10 @@ const Header = () => {
     </div>
   );
 };
+
+Header.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};
+
 
 export default Header;

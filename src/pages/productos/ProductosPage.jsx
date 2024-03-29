@@ -1,36 +1,40 @@
-import { useParams } from 'react-router-dom';
+// ProductosPage.jsx
+
+import PropTypes from 'prop-types';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ProductoPreview from '../../components/productoPreview/ProductoPreview';
-import productosList from '../../assets/productosList';
 import Titulo from '../../components/titulo/Titulo';
 import './productosPage.css';
-import { useEffect, useState } from 'react';
-import categoriasList from '../../assets/categoriasList';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductos } from '../../components/producto/productosSlice'
 
-
-const ProductosPage = () => {
-  const { categoriaId } = useParams(); // si es null todas las categorias
-  const [categoria, setCategoria] = useState(null);
-  const [productos, setProductos] = useState([]);
+const ProductosPage = ({ searchTerm }) => {
+  const dispatch = useDispatch();
+  const productos = useSelector(state => state.productos.productos);
+  const loading = useSelector(state => state.productos.loading);
+  const error = useSelector(state => state.productos.error);
 
   useEffect(() => {
-    console.log({ categoriasList });
-    if (categoriaId) {
-      setCategoria(categoriasList.find(categoria => categoria.id === categoriaId));
-      setProductos(productosList.filter(producto => producto.categoriaId === categoriaId))
-    } else {
-      setProductos(productosList);
-    }
-  }, [])
+    dispatch(fetchProductos());
+  }, [dispatch]);
 
   return (
     <div className="Page">
-      <Titulo icon={<ShoppingCartOutlinedIcon />}>{categoria ? `${categoria.label} / Productos` : 'Lista de productos'}</Titulo>
+      <Titulo icon={<ShoppingCartOutlinedIcon />}>
+        Lista de productos
+      </Titulo>
+      {loading && <p>Cargando...</p>}
+      {error && <p>Error: {error}</p>}
       <div className="ProductosPage-List">
-        {productos.map(producto => <ProductoPreview key={producto.id} producto={producto} />)}
+        {productos?.map(producto => <ProductoPreview key={producto.id} producto={producto} />)}
       </div>
     </div>
   );
 }
+
+ProductosPage.propTypes = {
+  searchTerm: PropTypes.string,
+};
 
 export default ProductosPage;

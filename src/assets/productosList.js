@@ -1,5 +1,7 @@
 //import { v4 as uuidv4 } from 'uuid';
-import Miniatura from "../assets/thumbnail-1.png";
+import Miniatura1 from "../assets/CERAMIC-CPU-SCRAP.jpg";
+import Miniatura2 from "../assets/placa-1.png";
+import Miniatura3 from "../assets/2020-11-1611.07.35_1445x.webp";
 
 const productosList = [
   {
@@ -7,9 +9,9 @@ const productosList = [
       "categoriaId": "0e90580c-e022-49ea-aacd-c693220020af",
       "titulo": "Placas bases 'A'",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 618,
@@ -21,9 +23,9 @@ const productosList = [
       "categoriaId": "f8b59a8d-fd77-4932-bc31-f33949a0f89e",
       "titulo": "Tarjetas de video",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 420,
@@ -35,9 +37,9 @@ const productosList = [
       "categoriaId": "7d478e94-f57d-4648-907d-4b9e7dc4a1cf",
       "titulo": "Procesadores antiguos",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 250,
@@ -49,9 +51,9 @@ const productosList = [
       "categoriaId": "24e761e6-fdf7-4c49-a42d-19b6c15d97bb",
       "titulo": "Memorias RAM DDR3",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 80,
@@ -63,9 +65,9 @@ const productosList = [
       "categoriaId": "164ef367-e010-4b3f-bc0d-72587a6f3aa5",
       "titulo": "Discos duros SATA",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 50,
@@ -77,9 +79,9 @@ const productosList = [
       "categoriaId": "45bb34bf-6d23-4259-86da-935965f5ef7a",
       "titulo": "Fuentes de poder usadas",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 30,
@@ -91,9 +93,9 @@ const productosList = [
       "categoriaId": "ffbe03bf-d12e-4e24-a76c-e65ce7c1c357",
       "titulo": "Teclados y ratones USB",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 15,
@@ -105,9 +107,9 @@ const productosList = [
       "categoriaId": "a6ba792c-5350-4766-a50e-4edc8ce3b8d8",
       "titulo": "Cables y conectores",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 5,
@@ -119,9 +121,9 @@ const productosList = [
       "categoriaId": "f8b59a8d-fd77-4932-bc31-f33949a0f89e",
       "titulo": "Placas madre dañadas",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 15,
@@ -133,9 +135,9 @@ const productosList = [
       "categoriaId": "7d478e94-f57d-4648-907d-4b9e7dc4a1cf",
       "titulo": "Monitores LCD averiados",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 40,
@@ -147,9 +149,9 @@ const productosList = [
       "categoriaId": "24e761e6-fdf7-4c49-a42d-19b6c15d97bb",
       "titulo": "Impresoras sin funcionar",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 25,
@@ -161,9 +163,9 @@ const productosList = [
       "categoriaId": "164ef367-e010-4b3f-bc0d-72587a6f3aa5",
       "titulo": "Móviles antiguos",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 30,
@@ -175,9 +177,9 @@ const productosList = [
       "categoriaId": "45bb34bf-6d23-4259-86da-935965f5ef7a",
       "titulo": "Baterías recargables",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 8,
@@ -189,9 +191,9 @@ const productosList = [
       "categoriaId": "ffbe03bf-d12e-4e24-a76c-e65ce7c1c357",
       "titulo": "Cámaras web usadas",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 12,
@@ -203,9 +205,9 @@ const productosList = [
       "categoriaId": "a6ba792c-5350-4766-a50e-4edc8ce3b8d8",
       "titulo": "Altavoces y auriculares defectuosos",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 10,
@@ -217,9 +219,9 @@ const productosList = [
       "categoriaId": "a6ba792c-5350-4766-a50e-4edc8ce3b8d8",
       "titulo": "Laptops viejas",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 120,
@@ -231,9 +233,9 @@ const productosList = [
       "categoriaId": "a6ba792c-5350-4766-a50e-4edc8ce3b8d8",
       "titulo": "Tablets con problemas",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 50,
@@ -245,9 +247,9 @@ const productosList = [
       "categoriaId": "a6ba792c-5350-4766-a50e-4edc8ce3b8d8",
       "titulo": "Reproductores de DVD estropeados",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 8,
@@ -259,9 +261,9 @@ const productosList = [
       "categoriaId": "24e761e6-fdf7-4c49-a42d-19b6c15d97bb",
       "titulo": "Dispositivos GPS antiguos",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 15,
@@ -273,9 +275,9 @@ const productosList = [
       "categoriaId": "164ef367-e010-4b3f-bc0d-72587a6f3aa5",
       "titulo": "Circuitos electrónicos dañados",
       imagenes: [
-        Miniatura,
-        Miniatura,
-        Miniatura,
+        Miniatura1,
+        Miniatura2,
+        Miniatura3,
       ],
       "precio": {
           "compra": 5,

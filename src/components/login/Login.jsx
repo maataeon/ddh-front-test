@@ -5,26 +5,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginThunk, setPassword, setUsername } from './loginSlice';
 import './login.css';
 import { Button, Card, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.login.username);
   const password = useSelector((state) => state.login.password);
 
 
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const userData = {
       usuario: username,
       password,
       API_KEY: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXByZXNhIjoiMSJ9.3GKuIwus_8PLyG8JqT00BVx3sMnW9ohBlkES23Fn4MM"
     };
-
+  
     console.log({ userData })
     // Despacha la acción de inicio de sesión
-    dispatch(loginThunk(userData));
+    await dispatch(loginThunk(userData));
+    
+    navigate('/usuarios');
   };
 
   const handleUsernameInputChange = (e) => {
@@ -76,7 +79,7 @@ const Login = () => {
         variant="contained"
         className="Login-IngresarButton"
         onClick={handleLogin}>Ingresar</Button>
-      
+
       <Link to="/registrarse" className="Login-RegistrarseLink">Registrarse</Link>
     </Card>
   </div>;

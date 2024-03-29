@@ -11,3 +11,9 @@
 .Item-Acciones {
     display: flex;
 }
+
+.Item-Titulo {
+    width: 30%;
+    display: flex;
+    gap: 1rem;
+}
