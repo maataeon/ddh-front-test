@@ -17,11 +17,10 @@ const Producto = ({ categoria, producto }) => {
       </Link>
       <div className="Producto">
             
-          <GaleriaDeImagenes imagenes={producto.imagenes} />
+          <GaleriaDeImagenes imagenes={producto.imagenes ?? []} />
         <div className="Producto-Informacion">
-          <Typography variant="h3">{producto.titulo}</Typography>
-          <Typography variant="h5" align="right">Compra: ${producto.precio.compra}</Typography>
-          <Typography variant="h5" align="right">Venta: ${producto.precio.venta}</Typography>
+          <Typography variant="h3">{producto.nombre}</Typography>
+          <Typography variant="h5" align="right">Compra: ${producto?.precio}</Typography>
         </div>
       </div>
     </div>

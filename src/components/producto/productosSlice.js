@@ -16,11 +16,25 @@ export const fetchProductos = createAsyncThunk(
   }
 );
 
+// Definir una acción asincrónica para obtener el detalle de un producto
+export const fetchProductoDetail = createAsyncThunk(
+  'productos/fetchProductoDetail',
+  async (productId, { rejectWithValue }) => {
+    try {
+      const response = await API.getProductoDetail(productId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Define el slice
 const productosSlice = createSlice({
   name: 'productos',
   initialState: {
     productos: [],
+    producto: null, // Agrega el estado para el detalle del producto
     loading: false,
     error: null,
   },
@@ -38,6 +52,19 @@ const productosSlice = createSlice({
       state.productos = action.payload.msg.data;
     },
     [fetchProductos.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    // Manejar la acción asincrónica fetchProductoDetail
+    [fetchProductoDetail.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchProductoDetail.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.producto = action.payload.msg; // Guarda el detalle del producto en el estado
+    },
+    [fetchProductoDetail.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

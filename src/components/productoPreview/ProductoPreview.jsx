@@ -8,7 +8,7 @@ import PropTypesShapes from "../../config/PropTypesShapes";
 
 const ProductoPreview = ({ producto }) => {
   return (
-    <Link to={`./${producto.id}`} className="Item">
+    <Link to={`./${producto.idProducto}`} className="Item">
       <div className="Item-Titulo">
         <div className="Item-Portada"><PhotoOutlinedIcon /></div>
         <div>{producto.nombre}</div>

@@ -8,7 +8,7 @@ class APIConfig {
     this.setupInterceptors();
   }
 
-  setupInterceptors() {/*
+  setupInterceptors() {/* 
     // Interceptor para todas las solicitudes
     axios.interceptors.request.use(
       (config) => {
@@ -24,19 +24,20 @@ class APIConfig {
       (error) => {
         return Promise.reject(error);
       }
-    );
-    
+    );*/
+   
     // Interceptor para manejar errores de autenticación (401) en las respuestas
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
           console.log('Se recibió un error 401. Redirigiendo al usuario...');
-          window.location.replace('/login');
+          const redirectUrl = `/login?redirect=${window.location.pathname}`;
+          window.location.replace(redirectUrl);
         }
         return Promise.reject(error);
       }
-    );*/
+    );
   }
 
   async fetchById(userId) {
@@ -119,6 +120,31 @@ class APIConfig {
       return data;
     } catch (error) {
       console.log(error)
+      throw new Error(`Error en la solicitud: ${error.message}`);
+    }
+  }
+
+  async getProductoDetail(productId) {
+    const url = `${this.baseURL}/producto/detail`;
+  
+    const requestBody = {
+      productId,
+      API_KEY: this.API_KEY
+    };
+  
+    try {
+      const response = await axios.post(url, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.token
+        }
+      });
+  
+      const data = response.data;
+      this.token = data.tkn ? data.tkn : this.token;
+  
+      return data;
+    } catch (error) {
       throw new Error(`Error en la solicitud: ${error.message}`);
     }
   }

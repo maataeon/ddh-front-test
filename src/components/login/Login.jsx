@@ -26,8 +26,16 @@ const Login = () => {
     console.log({ userData })
     // Despacha la acción de inicio de sesión
     await dispatch(loginThunk(userData));
-    
-    navigate('/usuarios');
+  
+    const params = new URLSearchParams(window.location.search);
+    const redirectParam = params.get('redirect');
+    if (redirectParam) {
+      // Si hay un parámetro de redirección, navega a esa URL
+      navigate(redirectParam);
+    } else {
+      // Si no hay parámetro de redirección, navega a '/usuarios' por defecto
+      navigate('/usuarios');
+    }
   };
 
   const handleUsernameInputChange = (e) => {
