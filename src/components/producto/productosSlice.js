@@ -29,12 +29,24 @@ export const fetchProductoDetail = createAsyncThunk(
   }
 );
 
+export const saveProduct = createAsyncThunk(
+  'productos/saveProduct',
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await API.saveProduct(product);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Define el slice
 const productosSlice = createSlice({
   name: 'productos',
   initialState: {
     productos: [],
-    producto: null, // Agrega el estado para el detalle del producto
+    producto: null,
     loading: false,
     error: null,
   },
@@ -42,29 +54,19 @@ const productosSlice = createSlice({
     // Otros reducers si es necesario
   },
   extraReducers: {
-    // Manejar la acción asincrónica fetchProductos
-    [fetchProductos.pending]: (state) => {
+    // Otros extra reducers si es necesario
+    // Manejar la acción asincrónica saveProduct
+    [saveProduct.pending]: (state) => {
       state.loading = true;
       state.error = null;
     },
-    [fetchProductos.fulfilled]: (state, action) => {
+    [saveProduct.fulfilled]: (state, action) => {
       state.loading = false;
-      state.productos = action.payload.msg.data;
+      // Puedes actualizar el estado según lo que necesites aquí
+      // Por ejemplo, si necesitas actualizar la lista de productos después de guardar uno nuevo
+      // podrías hacer state.productos.push(action.payload.producto)
     },
-    [fetchProductos.rejected]: (state, action) => {
-      state.loading = false;
-      state.error = action.payload;
-    },
-    // Manejar la acción asincrónica fetchProductoDetail
-    [fetchProductoDetail.pending]: (state) => {
-      state.loading = true;
-      state.error = null;
-    },
-    [fetchProductoDetail.fulfilled]: (state, action) => {
-      state.loading = false;
-      state.producto = action.payload.msg; // Guarda el detalle del producto en el estado
-    },
-    [fetchProductoDetail.rejected]: (state, action) => {
+    [saveProduct.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

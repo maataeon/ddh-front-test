@@ -8,10 +8,12 @@ import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import LoginIcon from '@mui/icons-material/Login';
 import './header.css'
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Header = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const token = useSelector((state) => state.login.token); // Accede al token desde el estado global
 
   const handleSearchChange = (event) => {
     const newSearchTerm = event.target.value;
@@ -31,21 +33,21 @@ const Header = ({ onSearch }) => {
         <img src={ddhLogo} className="Header-Logo" />
       </Link>
       <TextField
-      variant="outlined"
-      size="small"
-      placeholder="Buscar producto"
-      type="text"
-      value={searchTerm}
-      onChange={handleSearchChange}
-      onKeyUp={handleKeyPress}
-      InputProps={{
-        startAdornment: (
-          <InputAdornment position="start">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-      }}
-    />
+        variant="outlined"
+        size="small"
+        placeholder="Buscar producto"
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onKeyUp={handleKeyPress}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
       <div className="Navbar">
         <Link to="/categorias" className="Navbar-Item">
           <CategoryOutlinedIcon />
@@ -55,9 +57,9 @@ const Header = ({ onSearch }) => {
           <ContactPageOutlinedIcon />
           <Typography>Contacto</Typography>
         </Link>
-        <Link to="/login" className="Navbar-Item">
+        <Link to={token ? "/login?clear" : "/login"} className="Navbar-Item">
           <LoginIcon />
-          <Typography>Ingresar</Typography>
+          <Typography>{token ? "Salir" : "Ingresar"}</Typography>
         </Link>
       </div>
     </div>

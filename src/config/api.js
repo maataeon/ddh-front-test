@@ -6,44 +6,66 @@ class APIConfig {
     this.token = null;
     this.API_KEY = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXByZXNhIjoiMSJ9.3GKuIwus_8PLyG8JqT00BVx3sMnW9ohBlkES23Fn4MM';
     this.setupInterceptors();
+    this.isRequesting = false; // Variable para controlar si hay una solicitud en curso
   }
 
-  setupInterceptors() {/* 
-    // Interceptor para todas las solicitudes
-    axios.interceptors.request.use(
-      (config) => {
-        // Verificar si el token es nulo antes de cada solicitud
-        if (!this.token && config.url !== `${this.baseURL}/usuario/auth`) {
-          console.log('Token nulo. Redirigiendo al usuario...');
-          window.location.replace('/login');
-          // Puedes también rechazar la solicitud si deseas
-          // return Promise.reject(new Error('Token nulo. Redirigiendo al usuario...'));
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );*/
-   
-    // Interceptor para manejar errores de autenticación (401) en las respuestas
+  setupInterceptors() {
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
-          console.log('Se recibió un error 401. Redirigiendo al usuario...');
-          const redirectUrl = `/login?redirect=${window.location.pathname}`;
-          window.location.replace(redirectUrl);
+          const isAuthRequest = error.config.url === `${this.baseURL}/usuario/auth`;
+          if (!isAuthRequest) {
+            console.log('Se recibió un error 401. Redirigiendo al usuario...');
+            const redirectUrl = `/login?redirect=${window.location.pathname}`;
+            window.location.replace(redirectUrl);
+          }
         }
         return Promise.reject(error);
       }
     );
   }
 
-  async fetchById(userId) {
-    const url = `${this.baseURL}/users/${userId}`;
+  async fetchData(url, requestBody) {
     try {
-      const response = await axios.get(url);
+      if (this.isRequesting) {
+        // Si hay una solicitud en curso, esperar hasta que se complete antes de continuar
+        await new Promise(resolve => {
+          const interval = setInterval(() => {
+            if (!this.isRequesting) {
+              clearInterval(interval);
+              resolve();
+            }
+          }, 100);
+        });
+      }
+      
+      // Marcar que hay una solicitud en curso
+      this.isRequesting = true;
+
+      const response = await axios.post(url, requestBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.token
+        }
+      });
+      
+      const data = response.data;
+      this.token = data.tkn ? data.tkn : this.token;
+
+      // Marcar que la solicitud ha finalizado
+      this.isRequesting = false;
+      
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Error en la solicitud: ${error.message}`);
+    }
+  }
+  
+  async fetchById(userId) {
+    try {
+      const response = await axios.get(`${this.baseURL}/users/${userId}`);
       return response.data;
     } catch (error) {
       throw new Error(`Error en la solicitud: ${error.message}`);
@@ -51,106 +73,55 @@ class APIConfig {
   }
 
   async login(userData) {
-    const url = `${this.baseURL}/usuario/auth`;
-    
     try {
-      const response = await axios.post(url, userData);
-
+      
+      const requestBody = { API_KEY: this.API_KEY, ...userData };
+      const response = await axios.post(`${this.baseURL}/usuario/auth`, requestBody);
       const token = response.data.tkn;
       this.token = token;
-
-      console.log({auth : this.token});
-
-      return token; // Retorna el token desde el método login
+      console.log({auth: this.token});
+      return response;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new Error(`Error en la solicitud: ${error.message}`);
     }
   }
 
   async getProductos() {
     console.log("token at getProductos(): " +  this.token)
-
     const url = `${this.baseURL}/producto/`;
-    
-    const requestBody = {
-      API_KEY: this.API_KEY,
-      since: 0
-    };
-
-    try {
-      const response = await axios.post(url, requestBody, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.token // Utiliza el token guardado en la clase
-        }
-      });
-      const data = response.data;
-
-      this.token = data.tkn ? data.tkn : this.token;
-
-      return data;
-    } catch (error) {
-      console.log(error)
-      throw new Error(`Error en la solicitud: ${error.message}`);
-    }
+    const requestBody = { API_KEY: this.API_KEY, since: 0 };
+    return this.fetchData(url, requestBody);
   }
-  
+
   async getUsuarios() {
     console.log("token at getUsuarios(): " +  this.token)
-
     const url = `${this.baseURL}/usuario/getAll`;
-    
-    const requestBody = {
-      API_KEY: this.API_KEY,
-      since: 0,
-    };
-
-    try {
-      const response = await axios.post(url, requestBody, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.token // Utiliza el token guardado en la clase
-        }
-      });
-      const data = response.data;
-
-      this.token = data.tkn ? data.tkn : this.token;
-
-      return data;
-    } catch (error) {
-      console.log(error)
-      throw new Error(`Error en la solicitud: ${error.message}`);
-    }
+    const requestBody = { API_KEY: this.API_KEY, since: 0 };
+    return this.fetchData(url, requestBody);
   }
 
   async getProductoDetail(productId) {
     const url = `${this.baseURL}/producto/detail`;
-  
-    const requestBody = {
-      productId,
-      API_KEY: this.API_KEY
-    };
-  
+    const requestBody = { productId, API_KEY: this.API_KEY };
+    return this.fetchData(url, requestBody);
+  }
+
+  async saveProduct(productData) {
     try {
-      const response = await axios.post(url, requestBody, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': this.token
-        }
-      });
-  
-      const data = response.data;
-      this.token = data.tkn ? data.tkn : this.token;
-  
-      return data;
+      const url = `${this.baseURL}/producto/save`;
+      const requestBody = { ...productData, API_KEY: this.API_KEY };
+      return this.fetchData(url, requestBody);
     } catch (error) {
-      throw new Error(`Error en la solicitud: ${error.message}`);
+      throw new Error(`Error al guardar el producto: ${error.message}`);
     }
+  }
+
+  async clearToken() {
+    this.token = null;
   }
 }
 
-// Ejemplo de uso de la clase API
 const API = new APIConfig('http://localhost:8080/php');
 
 export default API;

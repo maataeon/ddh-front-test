@@ -7,7 +7,9 @@ import Titulo from '../../components/titulo/Titulo';
 import './productosPage.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductos } from '../../components/producto/productosSlice'
+import { fetchProductos } from '../../components/producto/productosSlice';
+import AddIcon from '@mui/icons-material/Add';
+import { Link } from 'react-router-dom';
 
 const ProductosPage = ({ searchTerm }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,9 @@ const ProductosPage = ({ searchTerm }) => {
       <Titulo icon={<ShoppingCartOutlinedIcon />}>
         Lista de productos
       </Titulo>
+      <Link to="/productos/new">
+          <AddIcon />
+        </Link>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}
       <div className="ProductosPage-List">

@@ -1,11 +1,16 @@
 import { useEffect } from 'react';
-import { useNavigate  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-const KeyboardEventHandler = (  ) => {
+const KeyboardEventHandler = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (event) => {
+      // Check if the Control key is pressed
+      if (!event.ctrlKey) {
+        return;
+      }
+
       switch (event.key) {
         case 'Backspace':
           navigate(-1);
@@ -17,7 +22,7 @@ const KeyboardEventHandler = (  ) => {
           navigate(1);
           break;
         default:
-          // Puedes agregar más casos para otras teclas y acciones
+          // You can add more cases for other keys and actions
           break;
       }
     };
