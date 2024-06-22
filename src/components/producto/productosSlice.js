@@ -1,14 +1,13 @@
 // productosSlice.js
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../config/api';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API from "../../config/api";
 
-// Definir una acción asincrónica para obtener productos
 export const fetchProductos = createAsyncThunk(
-  'productos/fetchProductos',
-  async (_, { rejectWithValue }) => {
+  "productos/fetchProductos",
+  async (criteria, { rejectWithValue }) => {
     try {
-      const data = await API.getProductos();
+      const data = await API.getProductos(criteria);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -16,9 +15,8 @@ export const fetchProductos = createAsyncThunk(
   }
 );
 
-// Definir una acción asincrónica para obtener el detalle de un producto
 export const fetchProductoDetail = createAsyncThunk(
-  'productos/fetchProductoDetail',
+  "productos/fetchProductoDetail",
   async (productId, { rejectWithValue }) => {
     try {
       const response = await API.getProductoDetail(productId);
@@ -30,7 +28,7 @@ export const fetchProductoDetail = createAsyncThunk(
 );
 
 export const saveProduct = createAsyncThunk(
-  'productos/saveProduct',
+  "productos/saveProduct",
   async (product, { rejectWithValue }) => {
     try {
       const response = await API.saveProduct(product);
@@ -41,38 +39,58 @@ export const saveProduct = createAsyncThunk(
   }
 );
 
-// Define el slice
 const productosSlice = createSlice({
-  name: 'productos',
+  name: "productos",
   initialState: {
     productos: [],
     producto: null,
     loading: false,
     error: null,
   },
-  reducers: {
-    // Otros reducers si es necesario
-  },
+  reducers: {},
   extraReducers: {
-    // Otros extra reducers si es necesario
-    // Manejar la acción asincrónica saveProduct
+    // save productos
     [saveProduct.pending]: (state) => {
       state.loading = true;
       state.error = null;
     },
     [saveProduct.fulfilled]: (state, action) => {
       state.loading = false;
-      // Puedes actualizar el estado según lo que necesites aquí
-      // Por ejemplo, si necesitas actualizar la lista de productos después de guardar uno nuevo
-      // podrías hacer state.productos.push(action.payload.producto)
     },
     [saveProduct.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // lista productos
+    [fetchProductos.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchProductos.fulfilled]: (state, action) => {
+      state.productos = action.payload.msg.data;
+      state.loading = false;
+    },
+    [fetchProductos.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // detail productos
+    [fetchProductoDetail.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [fetchProductoDetail.fulfilled]: (state, action) => {
+      state.producto = action.payload.msg;
+      state.loading = false;
+    },
+    [fetchProductoDetail.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },
   },
 });
 
-// Exportar acciones y reducers
 export const productosActions = productosSlice.actions;
 export default productosSlice.reducer;

@@ -1,12 +1,10 @@
-import GroupIcon from '@mui/icons-material/Group';
-import Titulo from '../../components/titulo/Titulo';
-import UsuariosFiltro from '../../components/filtros/usuarios/UsuariosFiltro';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUsuarios } from '../../components/usuarios/usuariosSlice'; // Ajusta la ruta según la ubicación de tu slice de usuarios
-
-import TablaUsuarios from '../../components/usuarios/TablaUsuarios';
-
+import GroupIcon from "@mui/icons-material/Group";
+import Titulo from "../../components/titulo/Titulo";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import TablaUsuarios from "./tablaUsuarios/TablaUsuarios";
+import FiltroUsuarios from "./filtroUsuarios/FiltroUsuarios";
+import { fetchUsuarios } from "./usuariosSlice";
 
 const UsuariosPage = () => {
   const [parameters, setParameters] = useState(null);
@@ -23,14 +21,13 @@ const UsuariosPage = () => {
   return (
     <div className="Page">
       <Titulo icon={<GroupIcon />}>Usuarios</Titulo>
-      <UsuariosFiltro setParameters={setParameters} />
-      <TablaUsuarios usuarios={usuarios}/>
+      <FiltroUsuarios setParameters={setParameters} />
+      <TablaUsuarios usuarios={usuarios} />
     </div>
-  )
-}
+  );
+};
 
 export default UsuariosPage;
-
 
 /*const generateUsersArray = (size) => {
   const usersArray = [];

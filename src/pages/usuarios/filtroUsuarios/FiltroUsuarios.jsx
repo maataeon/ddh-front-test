@@ -1,14 +1,14 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import PropTypes from 'prop-types';
-import "./usuariosFiltro.css";
+import PropTypes from "prop-types";
+import "./filtroUsuarios.css";
 
-const UsuariosFiltro = ({ setParameters }) => {
-  const [razonSocial, setRazonSocial] = useState('');
-  const [cuit, setCuit] = useState('');
-  const [telefono, setTelefono] = useState('');
-  const [estado, setEstado] = useState('');
-  const [tipoPerfil, setTipoPerfil] = useState('');
+const FiltroUsuarios = ({ setParameters }) => {
+  const [razonSocial, setRazonSocial] = useState("");
+  const [cuit, setCuit] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [estado, setEstado] = useState("");
+  const [tipoPerfil, setTipoPerfil] = useState("");
 
   // Function to handle the search
   const search = () => {
@@ -62,7 +62,6 @@ const UsuariosFiltro = ({ setParameters }) => {
           value={tipoPerfil}
           onChange={(e) => setTipoPerfil(e.target.value)}
         />
-
       </div>
       {/* Search Button */}
       <div className="UsuariosFiltro-ButtonBox">
@@ -72,10 +71,10 @@ const UsuariosFiltro = ({ setParameters }) => {
       </div>
     </div>
   );
-}
+};
 
-UsuariosFiltro.propTypes = {
+FiltroUsuarios.propTypes = {
   setParameters: PropTypes.func.isRequired,
 };
 
-export default UsuariosFiltro;
+export default FiltroUsuarios;

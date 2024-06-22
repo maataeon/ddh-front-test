@@ -1,4 +1,3 @@
-
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import LandingPage from "./pages/landing/LandingPage";
 import LoginPage from "./pages/login/LoginPage";
@@ -22,7 +21,7 @@ import NewProductoPage from "./pages/productos/producto/NewProductoPage";
 
 */
 
-const headerExcludedPaths = ['/login', '/registrarse'];
+const headerExcludedPaths = ["/login", "/registrarse"];
 
 const App = () => {
   const location = useLocation();
@@ -41,27 +40,33 @@ const App = () => {
     // Update the URL when search term changes
     navigate({ search: newSearchTerm ? `?q=${newSearchTerm}` : "" });
   };
-  return (<div className={`App${showHeader ? "" : " Headerless"}`}>
-    {showHeader && <Header onSearch={handleSearch} />}
-    <div className="PageViewer">
-      <Routes >
-        <Route index element={<LandingPage />} />
-        <Route path="categorias" element={<CategoriasPage />} />
-        <Route path="categorias/:categoriaId" element={<ProductosPage />} />
-        <Route path="categorias/:categoriaId/:productoId" element={<ProductoPage />} />
-        <Route path="productos" element={<ProductosPage searchTerm={searchTerm} />} />
-        <Route path="productos/new" element={<NewProductoPage />} />
-        <Route path="productos/:productoId" element={<ProductoPage />} />
-        <Route path="contacto" element={<ContactoPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="registrarse" element={<RegistrarsePage />} />
-        <Route path="usuarios" element={<UsuariosPage />} />
-
-      </Routes >
+  return (
+    <div className={`App${showHeader ? "" : " Headerless"}`}>
+      {showHeader && <Header onSearch={handleSearch} />}
+      <div className="PageViewer">
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route path="categorias" element={<CategoriasPage />} />
+          <Route path="categorias/:idCategoria" element={<ProductosPage />} />
+          <Route
+            path="categorias/:categoriaId/:productoId"
+            element={<ProductoPage />}
+          />
+          <Route
+            path="productos"
+            element={<ProductosPage searchTerm={searchTerm} />}
+          />
+          <Route path="productos/new" element={<NewProductoPage />} />
+          <Route path="producto/:productoId" element={<ProductoPage />} />
+          <Route path="contacto" element={<ContactoPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registrarse" element={<RegistrarsePage />} />
+          <Route path="usuarios" element={<UsuariosPage />} />
+        </Routes>
+      </div>
+      <KeyboardEventHandler />
     </div>
-    <KeyboardEventHandler />
-  </div >
-  )
-}
+  );
+};
 
 export default App;

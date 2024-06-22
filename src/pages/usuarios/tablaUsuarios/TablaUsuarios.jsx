@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import './tablaUsuarios.css';
+import PropTypes from "prop-types";
+import "./tablaUsuarios.css";
 
 const TablaUsuarios = ({ usuarios }) => {
   return (
@@ -16,11 +16,15 @@ const TablaUsuarios = ({ usuarios }) => {
       {/* Render data rows dynamically */}
       {usuarios.map((user) => (
         <div key={user.id} className="TablaUsuarios-Row">
-          <div className="TablaUsuarios-RazonSocial">{user.razonSocial ?? [user.nombre, user.apellido].join(' ') }</div>
-          <div className="TablaUsuarios-Cuit">{user.cuit}</div>
+          <div className="TablaUsuarios-RazonSocial">
+            {user.razonSocial ?? [user.nombre, user.apellido].join(" ")}
+          </div>
+          <div className="TablaUsuarios-Cuit">{user.nroDoc}</div>
           <div className="TablaUsuarios-Telefono">{user.telefono}</div>
           <div className="TablaUsuarios-Estado">{user.estado}</div>
-          <div className="TablaUsuarios-TipoPerfil">{user.tipoPerfil}</div>
+          <div className="TablaUsuarios-TipoPerfil">
+            {user.perfiles.map((perfil) => perfil.nombre).join(", ")}
+          </div>
           <div className="TablaUsuarios-Acciones">
             <button className="TablaUsuarios-EditButton">Editar</button>
             <button className="TablaUsuarios-DeleteButton">Borrar</button>
@@ -36,10 +40,10 @@ TablaUsuarios.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       razonSocial: PropTypes.string.isRequired,
-      cuit: PropTypes.string.isRequired,
+      nroDoc: PropTypes.string.isRequired,
       telefono: PropTypes.string.isRequired,
       estado: PropTypes.string.isRequired,
-      tipoPerfil: PropTypes.string.isRequired,
+      perfiles: PropTypes.array.isRequired,
       // Add more PropTypes as needed for other properties
     })
   ).isRequired,
