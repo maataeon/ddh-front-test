@@ -27,6 +27,19 @@ export const deleteCategoria = createAsyncThunk(
   }
 );
 
+export const createCategoria = createAsyncThunk(
+  "productos/deleteCategoria",
+  async (formData, { rejectWithValue }) => {
+    try {
+      console.log({ formData });
+      const data = await API.createCategoria(formData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const categoriasSlice = createSlice({
   name: "categorias",
   initialState: {

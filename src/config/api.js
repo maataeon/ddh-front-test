@@ -136,6 +136,17 @@ class APIConfig {
     const requestBody = { ...categoria, API_KEY: this.API_KEY };
     return this.fetchData(url, requestBody);
   }
+  async createCategoria(formData) {
+    const url = `${this.baseURL}/categoria/create`;
+    formData.append("API_KEY", this.API_KEY);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: this.token,
+      },
+    });
+    return response.data;
+  }
 
   async clearToken() {
     this.token = null;
