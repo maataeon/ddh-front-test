@@ -6,6 +6,8 @@ import Categoria from "./categoria/Categoria";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategorias } from "./categoriasSlice";
+import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 const CategoriasPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,12 @@ const CategoriasPage = () => {
 
   return (
     <div className="Page Categoria">
-      <Titulo icon={<CategoryOutlinedIcon />}>Categoria</Titulo>
+      <div className="Categorias-Header">
+        <Titulo icon={<CategoryOutlinedIcon />}>Categoria</Titulo>
+        <Link to="/productos/new">
+          <AddIcon />
+        </Link>
+      </div>
       <div className="Categorias-List">
         {categorias.length > 0 &&
           categorias.map((categoria) => (

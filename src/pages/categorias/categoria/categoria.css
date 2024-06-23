@@ -1,3 +1,7 @@
+.CategoriaContainer {
+    display: flex;
+}
+
 .CategoriaItem {
     display: flex;
     width: 13rem;
@@ -8,10 +12,25 @@
     border: solid #00000030 3px;
     box-sizing: border-box;
     cursor: pointer;
+    position: relative;
 }
 
 p.CategoriaItem-Label {
     font-size: 1rem;
     text-align: center;
     margin: 1rem 0;
+}
+
+.CategoriaContainer-Actions {
+    opacity: 0;
+    transition-duration: 300ms;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .25rem;
+}
+
+
+.CategoriaContainer:hover .CategoriaContainer-Actions {
+    opacity: 1;
 }

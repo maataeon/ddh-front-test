@@ -131,6 +131,12 @@ class APIConfig {
     return this.fetchData(url, requestBody);
   }
 
+  async deleteCategoria(categoria) {
+    const url = `${this.baseURL}/categoria/delete`;
+    const requestBody = { ...categoria, API_KEY: this.API_KEY };
+    return this.fetchData(url, requestBody);
+  }
+
   async clearToken() {
     this.token = null;
   }

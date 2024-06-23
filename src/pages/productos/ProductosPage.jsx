@@ -46,8 +46,13 @@ const ProductosPage = () => {
 
       {productos.length === 0 && (
         <p>
-          No existen productos que contengan en el nombre o la descripcion la
-          clave "{q}"
+          {" "}
+          No existen productos
+          {q &&
+            q.length > 0 &&
+            ` que contengan en el nombre o la descripcion la
+          clave "${q}"`}
+          {idCategoria && ` para la categoria ${idCategoria}`}
         </p>
       )}
       <div className="ProductosPage-List">

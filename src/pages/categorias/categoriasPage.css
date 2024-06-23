@@ -11,3 +11,9 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+.Categorias-Header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
