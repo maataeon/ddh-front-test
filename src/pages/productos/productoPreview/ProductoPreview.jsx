@@ -4,7 +4,7 @@ import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 import { Link } from "react-router-dom";
-import PropTypesShapes from "../../config/PropTypesShapes";
+import PropTypesShapes from "../../../config/PropTypesShapes";
 
 const ProductoPreview = ({ producto }) => {
   return (
@@ -15,7 +15,7 @@ const ProductoPreview = ({ producto }) => {
         </div>
         <div>{producto.nombre}</div>
       </div>
-      <div className="Item-Precio">Compra: ${producto?.precio?.compra}/kg</div>
+      <div className="Item-Precio">$ {producto?.precio} /kg</div>
       <div className="Item-Acciones">
         <CreateOutlinedIcon />
         <DeleteOutlineOutlinedIcon />

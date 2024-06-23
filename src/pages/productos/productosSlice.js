@@ -15,6 +15,18 @@ export const fetchProductos = createAsyncThunk(
   }
 );
 
+export const getPerfiles = createAsyncThunk(
+  "productos/getPerfiles",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await API.getPerfiles();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const fetchProductoDetail = createAsyncThunk(
   "productos/fetchProductoDetail",
   async (productId, { rejectWithValue }) => {
@@ -43,6 +55,7 @@ const productosSlice = createSlice({
   name: "productos",
   initialState: {
     productos: [],
+    perfiles: [],
     producto: null,
     loading: false,
     error: null,
@@ -72,6 +85,20 @@ const productosSlice = createSlice({
       state.loading = false;
     },
     [fetchProductos.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // lista productos
+    [getPerfiles.pending]: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    [getPerfiles.fulfilled]: (state, action) => {
+      state.perfiles = action.payload.msg;
+      state.loading = false;
+    },
+    [getPerfiles.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

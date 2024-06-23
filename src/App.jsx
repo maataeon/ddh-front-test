@@ -11,7 +11,7 @@ import RegistrarsePage from "./pages/registarse/RegistrarsePage";
 import { useEffect, useState } from "react";
 import UsuariosPage from "./pages/usuarios/UsuariosPage";
 import KeyboardEventHandler from "./components/keyboardEventHandler/KeyboardEventHandler";
-import NewProductoPage from "./pages/productos/producto/NewProductoPage";
+import AddEditProductoPage from "./pages/productos/addEditProducto/AddEditProductoPage";
 
 /*
   El primer nivel deben ser pages.
@@ -56,7 +56,7 @@ const App = () => {
             path="productos"
             element={<ProductosPage searchTerm={searchTerm} />}
           />
-          <Route path="productos/new" element={<NewProductoPage />} />
+          <Route path="productos/new" element={<AddEditProductoPage />} />
           <Route path="producto/:productoId" element={<ProductoPage />} />
           <Route path="contacto" element={<ContactoPage />} />
           <Route path="login" element={<LoginPage />} />

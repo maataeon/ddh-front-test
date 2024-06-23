@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Producto from "../../../components/producto/Producto";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductoDetail } from "../../../components/producto/productosSlice";
+import { fetchProductoDetail } from "../productosSlice";
+import Producto from "./Producto";
 
 const ProductoPage = () => {
   const { categoriaId, productoId } = useParams();

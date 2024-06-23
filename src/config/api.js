@@ -92,14 +92,18 @@ class APIConfig {
   }
 
   async getProductos(criteria) {
-    console.log("token at getProductos(): " + this.token);
     const url = `${this.baseURL}/producto/`;
     const requestBody = { ...criteria, API_KEY: this.API_KEY, since: 0 };
     return this.fetchData(url, requestBody);
   }
 
+  async getPerfiles() {
+    const url = `${this.baseURL}/usuario/profile/getAll`;
+    const requestBody = { API_KEY: this.API_KEY, since: 0 };
+    return this.fetchData(url, requestBody);
+  }
+
   async getUsuarios() {
-    console.log("token at getUsuarios(): " + this.token);
     const url = `${this.baseURL}/usuario/getAll`;
     const requestBody = { API_KEY: this.API_KEY, since: 0 };
     return this.fetchData(url, requestBody);

@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Categoria = ({ categoria }) => {
   return (
     <Link to={`/categorias/${categoria.idCategoria}`} className="CategoriaItem">
-      <img src={categoria.image} />
+      <img src={`http://localhost:8080/php/imagen/${categoria.imagen}`} />
       <Typography className="CategoriaItem-Label">
         {categoria.nombre}
       </Typography>
@@ -17,7 +17,7 @@ const Categoria = ({ categoria }) => {
 
 Categoria.propTypes = {
   categoria: PropTypes.shape({
-    image: PropTypes.object,
+    imagen: PropTypes.string.isRequired,
     nombre: PropTypes.string.isRequired,
     idCategoria: PropTypes.string.isRequired,
   }).isRequired,

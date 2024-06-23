@@ -1,3 +1,9 @@
+.ProductosPage-Header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
 .ProductosPage-List {
     display: flex;
     flex-direction: column;

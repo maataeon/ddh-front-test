@@ -1,11 +1,11 @@
 import { Button, TextField, Typography } from "@mui/material";
-import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
-import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
-import "./contactoPage.css"
+import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
+import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import "./contactoPage.css";
 import DatoItem from "../../components/datoItem/DatoItem";
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import PhoneAndroidOutlinedIcon from "@mui/icons-material/PhoneAndroidOutlined";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { useState } from "react";
 const ContactoPage = () => {
   const [nombre, setNombre] = useState("");
@@ -25,11 +25,11 @@ E-mail: ${email}
 Teléfono: ${telefono}
     
 ${mensaje}`;
+
     const urlEncodedMensaje = encodeURIComponent(consulta);
-    console.log(urlEncodedMensaje);
     const whatsappUrl = `https://wa.me/5491157508133?text=${urlEncodedMensaje}`;
-    window.location.href = whatsappUrl;
-  }
+    window.open(whatsappUrl, "_blank");
+  };
   const isFormValid = () => {
     return isNombreValid && isEmailValid && isTelefonoValid && isMensajeValid;
   };
@@ -40,7 +40,9 @@ ${mensaje}`;
         <div className="Contacto-Panel">
           <div className="Contacto-Titulo">
             <BadgeOutlinedIcon className="Titulo-Icon" />
-            <Typography className="Titulo-Texto">Nuestros medios de contacto</Typography>
+            <Typography className="Titulo-Texto">
+              Nuestros medios de contacto
+            </Typography>
           </div>
 
           <DatoItem
@@ -63,7 +65,9 @@ ${mensaje}`;
         <div className="Contacto-Panel">
           <div className="Contacto-Titulo">
             <CommentOutlinedIcon className="Titulo-Icon" />
-            <Typography className="Titulo-Texto">Escribinos tu consulta</Typography>
+            <Typography className="Titulo-Texto">
+              Escribinos tu consulta
+            </Typography>
           </div>
           <div className="Contacto-InputItem">
             <TextField
@@ -145,14 +149,18 @@ ${mensaje}`;
               variant="contained"
               className="Contacto-Button"
               disabled={!isFormValid()}
-              onClick={handleRegistrarse}>Enviar</Button>
-            <Typography color={isFormValid() ? "textSecondary" : "error"}>* Campos requeridos</Typography>
+              onClick={handleRegistrarse}
+            >
+              Enviar
+            </Button>
+            <Typography color={isFormValid() ? "textSecondary" : "error"}>
+              * Campos requeridos
+            </Typography>
           </div>
         </div>
-
       </div>
-    </div >
-  )
-}
+    </div>
+  );
+};
 
 export default ContactoPage;
