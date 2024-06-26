@@ -28,9 +28,11 @@ p.CategoriaItem-Label {
     flex-direction: column;
     gap: .5rem;
     padding: .25rem;
+    translate: -23px 0;
 }
 
 
 .CategoriaContainer:hover .CategoriaContainer-Actions {
     opacity: 1;
+    translate: 0 0;
 }

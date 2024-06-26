@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "../components/login/loginSlice";
-import productosReducer from "../pages/productos/productosSlice";
-import usuariosReducer from "../pages/usuarios/usuariosSlice";
-import categoriasReducer from "../pages/categorias/categoriasSlice";
+import loginSlice from "../components/login/loginSlice";
+import productosSlice from "../pages/productos/productosSlice";
+import usuariosSlice from "../pages/usuarios/usuariosSlice";
+import categoriasSlice from "../pages/categorias/categoriasSlice";
+import snackbarSlice from "../components/snackbar/snackbarSlice";
 
 export const store = configureStore({
   reducer: {
-    login: loginReducer,
-    productos: productosReducer,
-    usuarios: usuariosReducer,
-    categorias: categoriasReducer,
+    login: loginSlice,
+    productos: productosSlice,
+    usuarios: usuariosSlice,
+    categorias: categoriasSlice,
+    snackbar: snackbarSlice,
   },
 });

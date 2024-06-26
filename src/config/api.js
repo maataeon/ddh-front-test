@@ -1,13 +1,14 @@
 import axios from "axios";
 
 class APIConfig {
-  constructor(baseURL) {
-    this.baseURL = baseURL;
+  constructor() {
+    this.baseURL = "http://localhost:8080/php";
     this.token = null;
     this.API_KEY =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXByZXNhIjoiMSJ9.3GKuIwus_8PLyG8JqT00BVx3sMnW9ohBlkES23Fn4MM";
     this.setupInterceptors();
     this.isRequesting = false; // Variable para controlar si hay una solicitud en curso
+    axios.defaults.withCredentials = true;
   }
 
   setupInterceptors() {
@@ -28,43 +29,6 @@ class APIConfig {
     );
   }
 
-  async fetchData(url, requestBody) {
-    try {
-      /*if (this.isRequesting) {
-        // Si hay una solicitud en curso, esperar hasta que se complete antes de continuar
-        await new Promise(resolve => {
-          const interval = setInterval(() => {
-            if (!this.isRequesting) {
-              clearInterval(interval);
-              resolve();
-            }
-          }, 100);
-        });
-      }*/
-
-      // Marcar que hay una solicitud en curso
-      this.isRequesting = true;
-
-      const response = await axios.post(url, requestBody, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: this.token,
-        },
-      });
-
-      const data = response.data;
-      this.token = data.tkn ? data.tkn : this.token;
-
-      // Marcar que la solicitud ha finalizado
-      this.isRequesting = false;
-
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw new Error(`Error en la solicitud: ${error.message}`);
-    }
-  }
-
   async fetchById(userId) {
     try {
       const response = await axios.get(`${this.baseURL}/users/${userId}`);
@@ -75,67 +39,91 @@ class APIConfig {
   }
 
   async login(userData) {
-    try {
-      const requestBody = { API_KEY: this.API_KEY, ...userData };
-      const response = await axios.post(
-        `${this.baseURL}/usuario/auth`,
-        requestBody
-      );
-      const token = response.data.tkn;
-      this.token = token;
-      console.log({ auth: this.token });
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw new Error(`Error en la solicitud: ${error.message}`);
-    }
+    const requestBody = { API_KEY: this.API_KEY, ...userData };
+    const response = await axios.post(
+      `${this.baseURL}/usuario/auth`,
+      requestBody
+    );
+    return response;
   }
 
   async getProductos(criteria) {
     const url = `${this.baseURL}/producto/`;
     const requestBody = { ...criteria, API_KEY: this.API_KEY, since: 0 };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async getPerfiles() {
     const url = `${this.baseURL}/usuario/profile/getAll`;
     const requestBody = { API_KEY: this.API_KEY, since: 0 };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async getUsuarios() {
     const url = `${this.baseURL}/usuario/getAll`;
     const requestBody = { API_KEY: this.API_KEY, since: 0 };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async getProductoDetail(productId) {
     const url = `${this.baseURL}/producto/detail`;
     const requestBody = { productId, API_KEY: this.API_KEY };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async saveProduct(productData) {
-    try {
-      const url = `${this.baseURL}/producto/save`;
-      const requestBody = { ...productData, API_KEY: this.API_KEY };
-      return this.fetchData(url, requestBody);
-    } catch (error) {
-      throw new Error(`Error al guardar el producto: ${error.message}`);
-    }
+    const url = `${this.baseURL}/producto/save`;
+    const requestBody = { ...productData, API_KEY: this.API_KEY };
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async getCategorias(criteria) {
     const url = `${this.baseURL}/categoria/`;
     const requestBody = { ...criteria, API_KEY: this.API_KEY };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
 
   async deleteCategoria(categoria) {
     const url = `${this.baseURL}/categoria/delete`;
     const requestBody = { ...categoria, API_KEY: this.API_KEY };
-    return this.fetchData(url, requestBody);
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
   }
+
   async createCategoria(formData) {
     const url = `${this.baseURL}/categoria/create`;
     formData.append("API_KEY", this.API_KEY);
@@ -153,6 +141,6 @@ class APIConfig {
   }
 }
 
-const API = new APIConfig("http://localhost:8080/php");
+const API = new APIConfig();
 
 export default API;

@@ -1,17 +1,17 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import API from '../../config/api';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API from "../../config/api";
 
 const initialState = {
   token: null,
-  username: '',
-  password: '',
+  username: "",
+  password: "",
   error: null, // Estado para manejar errores de autenticación
-  success: null // Estado para manejar autenticacion exitosa de autenticación
+  success: null, // Estado para manejar autenticacion exitosa de autenticación
 };
 
 export const logout = createAsyncThunk(
-  'login/logout',
-  async (data,thunkAPI) => {
+  "login/logout",
+  async (data, thunkAPI) => {
     try {
       // Llama al método para limpiar el token
       API.clearToken();
@@ -24,11 +24,11 @@ export const logout = createAsyncThunk(
 );
 
 export const loginThunk = createAsyncThunk(
-  'login/loginThunk',
+  "login/loginThunk",
   async (userData, thunkAPI) => {
     try {
       const response = await API.login(userData);
-      console.log({response});
+      console.log({ response });
       return response.data;
     } catch (error) {
       // Captura el error y lo pasa al estado
@@ -38,7 +38,7 @@ export const loginThunk = createAsyncThunk(
 );
 
 export const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState,
   reducers: {
     setUsername: (state, action) => {
@@ -70,6 +70,7 @@ export const loginSlice = createSlice({
   },
 });
 
-export const { setUsername, setPassword, setError, clearError, clearSuccess } = loginSlice.actions;
+export const { setUsername, setPassword, setError, clearError, clearSuccess } =
+  loginSlice.actions;
 
 export default loginSlice.reducer;

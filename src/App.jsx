@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import UsuariosPage from "./pages/usuarios/UsuariosPage";
 import KeyboardEventHandler from "./components/keyboardEventHandler/KeyboardEventHandler";
 import AddEditProductoPage from "./pages/productos/addEditProducto/AddEditProductoPage";
+import Snackbar from "./components/snackbar/Snackbar";
 
 /*
   El primer nivel deben ser pages.
@@ -65,6 +66,7 @@ const App = () => {
         </Routes>
       </div>
       <KeyboardEventHandler />
+      <Snackbar />
     </div>
   );
 };

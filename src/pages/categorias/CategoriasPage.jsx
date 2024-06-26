@@ -1,3 +1,5 @@
+// CategoriasPage.js
+
 import { useState, useEffect } from "react";
 import "./categoriasPage.css";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
@@ -14,11 +16,12 @@ import {
   TextField,
   Button,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 
 const CategoriasPage = () => {
   const dispatch = useDispatch();
-  const categorias = useSelector((state) => state.categorias.categorias);
+  const { categorias, loading } = useSelector((state) => state.categorias);
   const [open, setOpen] = useState(false);
   const [newCategoria, setNewCategoria] = useState({ name: "", image: null });
 
@@ -42,8 +45,13 @@ const CategoriasPage = () => {
     const formData = new FormData();
     formData.append("name", newCategoria.name);
     formData.append("image", newCategoria.image);
-    dispatch(createCategoria(formData));
-    handleClose();
+    dispatch(createCategoria(formData))
+      .unwrap()
+      .then(() => {
+        handleClose(false);
+        dispatch(getCategorias({}));
+      })
+      .catch((error) => {});
   };
 
   return (
@@ -54,6 +62,7 @@ const CategoriasPage = () => {
           <AddIcon />
         </IconButton>
       </div>
+      {loading && <CircularProgress />}
       <div className="Categorias-List">
         {categorias.length > 0 &&
           categorias.map((categoria) => (
