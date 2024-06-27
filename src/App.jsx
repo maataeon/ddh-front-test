@@ -13,6 +13,7 @@ import UsuariosPage from "./pages/usuarios/UsuariosPage";
 import KeyboardEventHandler from "./components/keyboardEventHandler/KeyboardEventHandler";
 import AddEditProductoPage from "./pages/productos/addEditProducto/AddEditProductoPage";
 import Snackbar from "./components/snackbar/Snackbar";
+import Loading from "./components/loading/Loading";
 
 /*
   El primer nivel deben ser pages.
@@ -67,6 +68,7 @@ const App = () => {
       </div>
       <KeyboardEventHandler />
       <Snackbar />
+      <Loading />
     </div>
   );
 };

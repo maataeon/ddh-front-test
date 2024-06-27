@@ -95,7 +95,7 @@ const productosSlice = createSlice({
       state.error = null;
     },
     [getPerfiles.fulfilled]: (state, action) => {
-      state.perfiles = action.payload.msg;
+      state.perfiles = action.payload;
       state.loading = false;
     },
     [getPerfiles.rejected]: (state, action) => {

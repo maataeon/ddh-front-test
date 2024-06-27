@@ -4,14 +4,34 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useDispatch } from "react-redux";
 import "./categoria.css";
 import { Link } from "react-router-dom";
-import { deleteCategoria } from "../categoriasSlice";
+import { deleteCategoria, getCategorias } from "../categoriasSlice";
 import EditIcon from "@mui/icons-material/Edit";
+import { hideLoading } from "../../../components/loading/loadingSlice";
+import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
 
 const Categoria = ({ categoria }) => {
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteCategoria({ idCategoria: categoria.idCategoria }));
+    dispatch(deleteCategoria({ idCategoria: categoria.idCategoria }))
+      .unwrap()
+      .then(() => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: `Se borró la categoría ${categoria.nombre}`,
+            severity: "success",
+          })
+        );
+        dispatch(getCategorias({}));
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+        showSnackbar({
+          message: error.toString(),
+          severity: "error",
+        });
+      });
   };
 
   return (

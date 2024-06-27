@@ -18,19 +18,36 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
+import { showSnackbar } from "../../components/snackbar/snackbarSlice";
+import {
+  hideLoading,
+  showLoading,
+} from "../../components/loading/loadingSlice";
 
 const CategoriasPage = () => {
   const dispatch = useDispatch();
-  const { categorias, loading } = useSelector((state) => state.categorias);
+  const { categorias } = useSelector((state) => state.categorias);
   const [open, setOpen] = useState(false);
   const [newCategoria, setNewCategoria] = useState({ name: "", image: null });
 
   useEffect(() => {
-    dispatch(getCategorias({}));
-  }, [dispatch]);
+    initializeCategorias();
+  }, []);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const initializeCategorias = () => {
+    dispatch(showLoading());
+    dispatch(getCategorias({}))
+      .unwrap()
+      .then(() => {
+        dispatch(hideLoading());
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+      });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -43,15 +60,31 @@ const CategoriasPage = () => {
 
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append("name", newCategoria.name);
+    const categoryName = newCategoria.name;
+    formData.append("name", categoryName);
     formData.append("image", newCategoria.image);
+
+    dispatch(showLoading());
     dispatch(createCategoria(formData))
       .unwrap()
       .then(() => {
+        dispatch(hideLoading());
         handleClose(false);
-        dispatch(getCategorias({}));
+        dispatch(
+          showSnackbar({
+            message: `Se guardó la categoría ${categoryName}`,
+            severity: "success",
+          })
+        );
+        initializeCategorias();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        dispatch(hideLoading());
+        showSnackbar({
+          message: error.toString(),
+          severity: "error",
+        });
+      });
   };
 
   return (
@@ -62,7 +95,6 @@ const CategoriasPage = () => {
           <AddIcon />
         </IconButton>
       </div>
-      {loading && <CircularProgress />}
       <div className="Categorias-List">
         {categorias.length > 0 &&
           categorias.map((categoria) => (

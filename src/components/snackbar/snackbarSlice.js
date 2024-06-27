@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCategoria } from "../../pages/categorias/categoriasSlice";
 
 const initialState = {
   open: false,
@@ -22,19 +21,7 @@ const snackbarSlice = createSlice({
       state.severity = "info";
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(createCategoria.fulfilled, (state) => {
-        state.open = true;
-        state.message = "La categoría se guardó correctamente";
-        state.severity = "success";
-      })
-      .addCase(createCategoria.rejected, (state) => {
-        state.open = true;
-        state.message = "Hubo un error al guardar la categoría";
-        state.severity = "warning";
-      });
-  },
+  extraReducers: (builder) => {},
 });
 
 export const { showSnackbar, hideSnackbar } = snackbarSlice.actions;
