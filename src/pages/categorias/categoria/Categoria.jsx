@@ -41,7 +41,7 @@ const Categoria = ({ categoria }) => {
         className="CategoriaItem"
       >
         <img
-          src={`http://localhost:8080/php/imagen/${categoria.imagen}`}
+          src={`http://vps-3784667-x.dattaweb.com:8080/php/imagen/${categoria.imagen}`}
           alt={categoria.nombre}
         />
         <Typography className="CategoriaItem-Label">

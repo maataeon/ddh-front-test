@@ -2,7 +2,7 @@ import axios from "axios";
 
 class APIConfig {
   constructor() {
-    this.baseURL = "http://localhost:8080/php";
+    this.baseURL = "http://vps-3784667-x.dattaweb.com:8080/php";
     this.token = null;
     this.API_KEY =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXByZXNhIjoiMSJ9.3GKuIwus_8PLyG8JqT00BVx3sMnW9ohBlkES23Fn4MM";
