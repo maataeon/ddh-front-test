@@ -80,10 +80,12 @@ const CategoriasPage = () => {
       })
       .catch((error) => {
         dispatch(hideLoading());
-        showSnackbar({
-          message: error.toString(),
-          severity: "error",
-        });
+        dispatch(
+          showSnackbar({
+            message: "Hubo un error al guardar la categoría",
+            severity: "error",
+          })
+        );
       });
   };
 

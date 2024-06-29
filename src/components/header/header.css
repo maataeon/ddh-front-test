@@ -10,7 +10,7 @@
 }
 
 .Header-Logo {
-  width: 7.125rem;
+  width: 6.125rem;
   margin: 0 3rem;
 }
 
@@ -35,13 +35,13 @@
 }
 
 .Navbar-Item:hover {
-background-color: #DDD;
-border: solid #DDD 3px;
+  background-color: #DDD;
+  border: solid #DDD 3px;
 }
 
 .Navbar-Item:active,
 .Navbar-Item:focus {
-border: solid #F6831F 3px;
+  border: solid #F6831F 3px;
 }
 
 div.Header-InputSearch {

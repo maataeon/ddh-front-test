@@ -46,3 +46,14 @@ p.Volver-Texto {
     align-items: center;
     color: #000000;
 }
+
+.Producto-Portada {
+    width: 19rem;
+    display: flex;
+    flex-direction: column;
+    padding: 0 5rem 0 1rem;
+}
+
+
+.Producto-Informacion {
+    max-width: 30rem;

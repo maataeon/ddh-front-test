@@ -3,7 +3,8 @@ import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import "./producto.css";
 import { Link } from "react-router-dom";
 import PropTypesShapes from "../../../config/PropTypesShapes";
-import GaleriaDeImagenes from "../../../components/galeriaImagenes/GaleriaImagenes";
+import config from "../../../config/config";
+//import GaleriaDeImagenes from "../../../components/galeriaImagenes/GaleriaImagenes";
 
 const Producto = ({ categoria, producto }) => {
   return (
@@ -17,13 +18,24 @@ const Producto = ({ categoria, producto }) => {
         <div>{producto.id}</div>
       </Link>
       <div className="Producto">
-        <GaleriaDeImagenes imagenes={producto.imagenes ?? []} />
+        {/*<GaleriaDeImagenes imagenes={producto.imagenes ?? []} />*/}
+        <div className="Producto-Portada">
+          <img
+            src={`${config.apiUrl}/imagen/${producto.imagen}`}
+            alt={producto.nombre}
+          />
+        </div>
         <div className="Producto-Informacion">
           <Typography variant="h3">{producto.nombre}</Typography>
-          <Typography variant="h5" align="right">
+          <Typography
+            variant="h4"
+            align="right"
+            style={{ margin: "3rem 0 5rem 0" }}
+          >
             {" "}
             $ {producto?.precio}
           </Typography>
+          <Typography variant="h5">{producto.descripcion}</Typography>
         </div>
       </div>
     </div>

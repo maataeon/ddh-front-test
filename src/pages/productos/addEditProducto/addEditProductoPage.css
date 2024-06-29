@@ -2,3 +2,8 @@ div.AddEditProductoPage-Card {
   max-width: 40rem;
   margin: 0 auto;
 }
+
+.AddEditProductoPage-ButtonsBox {
+  display: flex;
+  justify-content: flex-end;
+}

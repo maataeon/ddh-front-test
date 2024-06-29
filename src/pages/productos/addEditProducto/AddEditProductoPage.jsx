@@ -16,6 +16,11 @@ import {
 } from "@mui/material";
 import "./addEditProductoPage.css";
 import { getCategorias } from "../../categorias/categoriasSlice";
+import {
+  hideLoading,
+  showLoading,
+} from "../../../components/loading/loadingSlice";
+import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
 
 const AddEditProductoPage = () => {
   const dispatch = useDispatch();
@@ -32,6 +37,8 @@ const AddEditProductoPage = () => {
     estado: 1,
   });
 
+  const [image, setImage] = useState(null);
+
   const [errors, setErrors] = useState({
     nombre: false,
     descripcion: false,
@@ -46,7 +53,11 @@ const AddEditProductoPage = () => {
     setErrors({ ...errors, [name]: value === "" });
   };
 
-  const handleSubmit = async (event) => {
+  const handleFileChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (!isFormValid()) {
       setErrors({
@@ -58,24 +69,44 @@ const AddEditProductoPage = () => {
       });
       return;
     }
-    try {
-      // Dispatch para guardar el nuevo producto
-      await dispatch(saveProduct(producto));
-      // Lógica adicional después de guardar el producto si es necesario
-      console.log("Producto guardado con éxito!");
-      // Limpiar el formulario después de guardar el producto
-      setProducto({
-        nombre: "",
-        descripcion: "",
-        precio: 0,
-        idProducto: 0,
-        idPerfil: 1,
-        idCategoria: 1,
-        estado: 1,
-      });
-    } catch (error) {
-      console.error("Error al guardar el producto:", error);
+    const formData = new FormData();
+    formData.append("producto", JSON.stringify(producto));
+    if (image) {
+      formData.append("image", image);
     }
+
+    dispatch(showLoading());
+    dispatch(saveProduct(formData))
+      .unwrap()
+      .then(() => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: `Se guardó el producto ${producto.nombre}`,
+            severity: "success",
+          })
+        );
+
+        setProducto({
+          nombre: "",
+          descripcion: "",
+          precio: 0,
+          idProducto: 0,
+          idPerfil: 1,
+          idCategoria: 1,
+          estado: 1,
+        });
+        setImage(null);
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: "Hubo un problema al guardar el producto",
+            severity: "error",
+          })
+        );
+      });
   };
 
   const isFormValid = () => {
@@ -114,17 +145,6 @@ const AddEditProductoPage = () => {
               onChange={handleInputChange}
               error={errors.nombre}
               helperText={errors.nombre ? "Nombre es requerido" : ""}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              margin="normal"
-              label="Descripción"
-              name="descripcion"
-              value={producto.descripcion}
-              onChange={handleInputChange}
-              error={errors.descripcion}
-              helperText={errors.descripcion ? "Descripción es requerida" : ""}
             />
             <TextField
               fullWidth
@@ -183,15 +203,40 @@ const AddEditProductoPage = () => {
                 </Typography>
               )}
             </FormControl>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3, mb: 2 }}
-              disabled={!isFormValid()}
-            >
-              Guardar
-            </Button>
+            <FormControl fullWidth margin="normal" error={errors.imagen}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{ marginTop: "16px" }}
+              />
+            </FormControl>
+
+            <TextField
+              fullWidth
+              size="small"
+              margin="normal"
+              label="Descripción"
+              name="descripcion"
+              multiline
+              rows={4}
+              inputProps={{ maxLength: 250 }}
+              value={producto.descripcion}
+              onChange={handleInputChange}
+              error={errors.descripcion}
+              helperText={errors.descripcion ? "Descripción es requerida" : ""}
+            />
+            <div className="AddEditProductoPage-ButtonsBox">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ mt: 3, mb: 2 }}
+                disabled={!isFormValid()}
+              >
+                Guardar
+              </Button>
+            </div>
           </Box>
         </CardContent>
       </Card>

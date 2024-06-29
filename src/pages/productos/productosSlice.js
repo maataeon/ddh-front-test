@@ -51,6 +51,18 @@ export const saveProduct = createAsyncThunk(
   }
 );
 
+export const deleteProduct = createAsyncThunk(
+  "productos/deleteProduct",
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await API.deleteProduct(product);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const productosSlice = createSlice({
   name: "productos",
   initialState: {

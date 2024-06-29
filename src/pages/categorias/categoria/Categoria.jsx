@@ -8,6 +8,7 @@ import { deleteCategoria, getCategorias } from "../categoriasSlice";
 import EditIcon from "@mui/icons-material/Edit";
 import { hideLoading } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
+import config from "../../../config/config";
 
 const Categoria = ({ categoria }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Categoria = ({ categoria }) => {
         className="CategoriaItem"
       >
         <img
-          src={`http://localhost:8080/php/imagen/${categoria.imagen}`}
+          src={`${config.apiUrl}/imagen/${categoria.imagen}`}
           alt={categoria.nombre}
         />
         <Typography className="CategoriaItem-Label">

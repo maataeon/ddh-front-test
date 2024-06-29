@@ -91,9 +91,20 @@ class APIConfig {
     return response.data;
   }
 
-  async saveProduct(productData) {
+  async saveProduct(formData) {
     const url = `${this.baseURL}/producto/save`;
-    const requestBody = { ...productData, API_KEY: this.API_KEY };
+    formData.append("API_KEY", this.API_KEY);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  }
+
+  async deleteProduct(producto) {
+    const url = `${this.baseURL}/producto/delete`;
+    const requestBody = { ...producto, API_KEY: this.API_KEY };
     const response = await axios.post(url, requestBody, {
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +141,6 @@ class APIConfig {
     const response = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: this.token,
       },
     });
     return response.data;

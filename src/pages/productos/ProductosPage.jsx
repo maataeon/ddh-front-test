@@ -24,6 +24,10 @@ const ProductosPage = () => {
   const q = queryParams.get("q");
 
   useEffect(() => {
+    initializeProductos();
+  }, [dispatch, q, idCategoria]);
+
+  const initializeProductos = () => {
     const query = q ?? "";
     const criteria = {
       idCategoria,
@@ -31,8 +35,7 @@ const ProductosPage = () => {
       name: query,
     };
     dispatch(fetchProductos(criteria));
-  }, [dispatch, q, idCategoria]);
-
+  };
   return (
     <div className="Page">
       <div className="ProductosPage-Header">
@@ -57,7 +60,11 @@ const ProductosPage = () => {
       )}
       <div className="ProductosPage-List">
         {productos?.map((producto) => (
-          <ProductoPreview key={producto.id} producto={producto} />
+          <ProductoPreview
+            key={producto.id}
+            producto={producto}
+            initializeProductos={initializeProductos}
+          />
         ))}
       </div>
     </div>
