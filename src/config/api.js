@@ -1,8 +1,9 @@
 import axios from "axios";
+import config from "./config";
 
 class APIConfig {
   constructor() {
-    this.baseURL = "http://vps-3784667-x.dattaweb.com:8080/php";
+    this.baseURL = config.apiUrl;
     this.token = null;
     this.API_KEY =
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXByZXNhIjoiMSJ9.3GKuIwus_8PLyG8JqT00BVx3sMnW9ohBlkES23Fn4MM";
@@ -16,8 +17,7 @@ class APIConfig {
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
-          const isAuthRequest =
-            error.config.url === `${this.baseURL}/usuario/auth`;
+          const isAuthRequest = error.config.url.includes("/usuario/checkAuth");
           if (!isAuthRequest) {
             console.log("Se recibió un error 401. Redirigiendo al usuario...");
             const redirectUrl = `/login?redirect=${window.location.pathname}`;
@@ -136,6 +136,15 @@ class APIConfig {
     return response.data;
   }
 
+  async checkAuth() {
+    const response = await axios.get(`${this.baseURL}/usuario/checkAuth`);
+    return { response };
+  }
+  async logout() {
+    const response = await axios.get(`${this.baseURL}/usuario/logout`);
+    this.clearToken();
+    return { response };
+  }
   async clearToken() {
     this.token = null;
   }

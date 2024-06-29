@@ -5,6 +5,7 @@ import usuariosSlice from "../pages/usuarios/usuariosSlice";
 import categoriasSlice from "../pages/categorias/categoriasSlice";
 import snackbarSlice from "../components/snackbar/snackbarSlice";
 import loadingSlice from "../components/loading/loadingSlice";
+import authSlice from "../slices/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     categorias: categoriasSlice,
     snackbar: snackbarSlice,
     loading: loadingSlice,
+    auth: authSlice,
   },
 });

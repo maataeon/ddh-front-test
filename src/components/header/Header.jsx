@@ -1,33 +1,43 @@
-import PropTypes from 'prop-types';
-import { InputAdornment, TextField, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from "prop-types";
+import { InputAdornment, TextField, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ddhLogo from "../../assets/ddh-logo.png";
-import SearchIcon from '@mui/icons-material/Search';
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
-import LoginIcon from '@mui/icons-material/Login';
-import './header.css'
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import SearchIcon from "@mui/icons-material/Search";
+import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
+import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
+import LoginIcon from "@mui/icons-material/Login";
+import "./header.css";
+import { checkAuth, logout } from "../../slices/authSlice";
 
 const Header = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  const token = useSelector((state) => state.login.token); // Accede al token desde el estado global
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   const handleSearchChange = (event) => {
-    const newSearchTerm = event.target.value;
-    setSearchTerm(newSearchTerm);
+    setSearchTerm(event.target.value);
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       onSearch(searchTerm);
       navigate(`/productos?q=${encodeURIComponent(searchTerm)}`);
     }
   };
-  return (
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
+  return (
     <div className="Header">
       <Link to="/">
         <img src={ddhLogo} className="Header-Logo" />
@@ -57,10 +67,17 @@ const Header = ({ onSearch }) => {
           <ContactPageOutlinedIcon />
           <Typography>Contacto</Typography>
         </Link>
-        <Link to={token ? "/login?clear" : "/login"} className="Navbar-Item">
-          <LoginIcon />
-          <Typography>{token ? "Salir" : "Ingresar"}</Typography>
-        </Link>
+        {isAuthenticated ? (
+          <div className="Navbar-Item" onClick={handleLogout}>
+            <LoginIcon />
+            <Typography>Salir</Typography>
+          </div>
+        ) : (
+          <Link to="/login" className="Navbar-Item">
+            <LoginIcon />
+            <Typography>Ingresar</Typography>
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -69,6 +86,5 @@ const Header = ({ onSearch }) => {
 Header.propTypes = {
   onSearch: PropTypes.func.isRequired,
 };
-
 
 export default Header;
