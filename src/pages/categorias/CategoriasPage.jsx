@@ -1,5 +1,3 @@
-// CategoriasPage.js
-
 import { useState, useEffect } from "react";
 import "./categoriasPage.css";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
@@ -29,10 +27,18 @@ const CategoriasPage = () => {
   const { categorias } = useSelector((state) => state.categorias);
   const [open, setOpen] = useState(false);
   const [newCategoria, setNewCategoria] = useState({ name: "", image: null });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     initializeCategorias();
   }, []);
+
+  useEffect(() => {
+    // Validación del formulario
+    setIsFormValid(
+      newCategoria.name.trim() !== "" && newCategoria.image !== null
+    );
+  }, [newCategoria]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -69,7 +75,7 @@ const CategoriasPage = () => {
       .unwrap()
       .then(() => {
         dispatch(hideLoading());
-        handleClose(false);
+        handleClose();
         dispatch(
           showSnackbar({
             message: `Se guardó la categoría ${categoryName}`,
@@ -126,7 +132,12 @@ const CategoriasPage = () => {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button
+            onClick={handleSubmit}
+            color="primary"
+            variant="contained"
+            disabled={!isFormValid}
+          >
             Agregar
           </Button>
         </DialogActions>

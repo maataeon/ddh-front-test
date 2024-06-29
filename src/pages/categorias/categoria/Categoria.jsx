@@ -9,12 +9,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import { hideLoading } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
 import config from "../../../config/config";
+import { useState } from "react";
+import ConfirmationDeleteDialog from "../confirmationDeleteDialog/ConfirmationDeleteDialog";
 
 const Categoria = ({ categoria }) => {
+  const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
 
-  const handleDelete = () => {
-    dispatch(deleteCategoria({ idCategoria: categoria.idCategoria }))
+  const handleDelete = (associatedProducts) => {
+    dispatch(
+      deleteCategoria({
+        idCategoria: categoria.idCategoria,
+        associatedProducts,
+      })
+    )
       .unwrap()
       .then(() => {
         dispatch(hideLoading());
@@ -24,6 +32,7 @@ const Categoria = ({ categoria }) => {
             severity: "success",
           })
         );
+        setOpenModal(false);
         dispatch(getCategorias({}));
       })
       .catch((error) => {
@@ -34,6 +43,7 @@ const Categoria = ({ categoria }) => {
         });
       });
   };
+  const handleEdit = () => {};
 
   return (
     <div className="CategoriaContainer">
@@ -52,7 +62,7 @@ const Categoria = ({ categoria }) => {
       <div className="CategoriaContainer-Actions">
         <IconButton
           className="DeleteButton"
-          onClick={handleDelete}
+          onClick={() => setOpenModal(true)}
           aria-label="delete"
           size="small"
         >
@@ -60,13 +70,19 @@ const Categoria = ({ categoria }) => {
         </IconButton>
         <IconButton
           className="EditButton"
-          onClick={handleDelete}
+          onClick={handleEdit}
           aria-label="edit"
           size="small"
         >
           <EditIcon />
         </IconButton>
       </div>
+
+      <ConfirmationDeleteDialog
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 };
