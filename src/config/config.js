@@ -1,4 +1,4 @@
-const useLocalhost = true; // Cambia a false para usar la URL de producción
+const useLocalhost = false; // Cambia a false para usar la URL de producción
 
 const config = {
   apiUrl: useLocalhost
