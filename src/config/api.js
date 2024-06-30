@@ -146,6 +146,17 @@ class APIConfig {
     return response.data;
   }
 
+  async updateCategoria(formData) {
+    const url = `${this.baseURL}/categoria/update`;
+    formData.append("API_KEY", this.API_KEY);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  }
+
   async checkAuth() {
     const response = await axios.get(`${this.baseURL}/usuario/checkAuth`);
     return { response };

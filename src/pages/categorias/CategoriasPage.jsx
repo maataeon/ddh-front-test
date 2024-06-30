@@ -4,7 +4,11 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import Titulo from "../../components/titulo/Titulo";
 import Categoria from "./categoria/Categoria";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategorias, createCategoria } from "./categoriasSlice";
+import {
+  getCategorias,
+  createCategoria,
+  updateCategoria,
+} from "./categoriasSlice";
 import AddIcon from "@mui/icons-material/Add";
 import {
   Dialog,
@@ -26,7 +30,11 @@ const CategoriasPage = () => {
   const dispatch = useDispatch();
   const { categorias } = useSelector((state) => state.categorias);
   const [open, setOpen] = useState(false);
-  const [newCategoria, setNewCategoria] = useState({ name: "", image: null });
+  const [newCategoria, setNewCategoria] = useState({
+    idCategoria: null,
+    name: "",
+    image: null,
+  });
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
@@ -40,8 +48,23 @@ const CategoriasPage = () => {
     );
   }, [newCategoria]);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenCreate = () => setOpen(true);
+  const handleOpenEdit = (categoria) => {
+    setNewCategoria({
+      idCategoria: categoria.idCategoria,
+      name: categoria.nombre,
+    });
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setNewCategoria({
+      idCategoria: null,
+      name: "",
+      image: null,
+    });
+  };
 
   const initializeCategorias = () => {
     dispatch(showLoading());
@@ -69,16 +92,26 @@ const CategoriasPage = () => {
     const categoryName = newCategoria.name;
     formData.append("name", categoryName);
     formData.append("image", newCategoria.image);
+    if (newCategoria.idCategoria) {
+      formData.append("idCategoria", newCategoria.idCategoria);
+    }
 
     dispatch(showLoading());
-    dispatch(createCategoria(formData))
+
+    //const thunk
+    const asyncThunk = newCategoria.idCategoria
+      ? updateCategoria
+      : createCategoria;
+    dispatch(asyncThunk(formData))
       .unwrap()
       .then(() => {
         dispatch(hideLoading());
         handleClose();
         dispatch(
           showSnackbar({
-            message: `Se guardó la categoría ${categoryName}`,
+            message: `Se ${
+              newCategoria.idCategoria ? "modificó" : "guardó"
+            } la categoría ${categoryName}`,
             severity: "success",
           })
         );
@@ -88,7 +121,9 @@ const CategoriasPage = () => {
         dispatch(hideLoading());
         dispatch(
           showSnackbar({
-            message: "Hubo un error al guardar la categoría",
+            message: `Hubo un error al ${
+              newCategoria.idCategoria ? "modificar" : "guardar"
+            } la categoría`,
             severity: "error",
           })
         );
@@ -99,18 +134,24 @@ const CategoriasPage = () => {
     <div className="Page Categoria">
       <div className="Categorias-Header">
         <Titulo icon={<CategoryOutlinedIcon />}>Categoria</Titulo>
-        <IconButton onClick={handleOpen}>
+        <IconButton onClick={handleOpenCreate}>
           <AddIcon />
         </IconButton>
       </div>
       <div className="Categorias-List">
         {categorias.length > 0 &&
           categorias.map((categoria) => (
-            <Categoria key={categoria.id} categoria={categoria} />
+            <Categoria
+              key={categoria.imagen}
+              categoria={categoria}
+              handleOpenEdit={handleOpenEdit}
+            />
           ))}
       </div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Agregar Nueva Categoria</DialogTitle>
+        <DialogTitle>{`${
+          newCategoria.idCategoria ? "Editar" : "Agregar"
+        } Nueva Categoria`}</DialogTitle>
         <DialogContent>
           <TextField
             label="Nombre"
@@ -138,7 +179,7 @@ const CategoriasPage = () => {
             variant="contained"
             disabled={!isFormValid}
           >
-            Agregar
+            {`${newCategoria.idCategoria ? "Editar" : "Agregar"}`}
           </Button>
         </DialogActions>
       </Dialog>

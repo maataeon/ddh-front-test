@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPerfiles, saveProduct } from "../productosSlice";
+import {
+  fetchProductoDetail,
+  getPerfiles,
+  saveProduct,
+} from "../productosSlice";
 import {
   Card,
   CardContent,
@@ -21,6 +25,7 @@ import {
   showLoading,
 } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
+import { useParams } from "react-router-dom";
 
 const AddEditProductoPage = () => {
   const dispatch = useDispatch();
@@ -46,6 +51,21 @@ const AddEditProductoPage = () => {
     idCategoria: false,
     idPerfil: false,
   });
+
+  const { productoId } = useParams();
+
+  useEffect(() => {
+    dispatch(showLoading());
+    dispatch(fetchProductoDetail(productoId))
+      .unwrap()
+      .then((response) => {
+        dispatch(hideLoading());
+        setProducto({ ...response.msg });
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+      });
+  }, [dispatch, productoId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -127,7 +147,7 @@ const AddEditProductoPage = () => {
   return (
     <div className="Page">
       <Card className="AddEditProductoPage-Card">
-        <CardHeader title="Nuevo Producto" />
+        <CardHeader title={`${productoId ? "Editar" : "Nuevo"} Producto`} />
         <CardContent>
           <Box
             component="form"

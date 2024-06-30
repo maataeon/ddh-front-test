@@ -27,6 +27,18 @@ export const createCategoria = createAsyncThunk(
   }
 );
 
+export const updateCategoria = createAsyncThunk(
+  "categorias/updateCategoria",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const data = await API.updateCategoria(formData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const deleteCategoria = createAsyncThunk(
   "productos/deleteCategoria",
   async (categoria, { rejectWithValue }) => {

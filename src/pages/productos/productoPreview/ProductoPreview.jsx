@@ -45,7 +45,10 @@ const ProductoPreview = ({ producto, initializeProductos }) => {
       });
   };
 
-  const handleEdit = () => {};
+  const handleEdit = () => {
+    window.location.href = `/productos/edit/${producto.idProducto}`;
+  };
+
   return (
     <div className="Item">
       <Link to={`/producto/${producto.idProducto}`} className="Item-Link">

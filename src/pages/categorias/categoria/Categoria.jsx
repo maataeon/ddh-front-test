@@ -12,7 +12,7 @@ import config from "../../../config/config";
 import { useState } from "react";
 import ConfirmationDeleteDialog from "../confirmationDeleteDialog/ConfirmationDeleteDialog";
 
-const Categoria = ({ categoria }) => {
+const Categoria = ({ categoria, handleOpenEdit }) => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -43,7 +43,6 @@ const Categoria = ({ categoria }) => {
         });
       });
   };
-  const handleEdit = () => {};
 
   return (
     <div className="CategoriaContainer">
@@ -70,7 +69,7 @@ const Categoria = ({ categoria }) => {
         </IconButton>
         <IconButton
           className="EditButton"
-          onClick={handleEdit}
+          onClick={() => handleOpenEdit(categoria)}
           aria-label="edit"
           size="small"
         >
@@ -92,6 +91,7 @@ Categoria.propTypes = {
     imagen: PropTypes.string.isRequired,
     nombre: PropTypes.string.isRequired,
     idCategoria: PropTypes.string.isRequired,
+    handleOpenEdit: PropTypes.func.isRequired,
   }).isRequired,
 };
 

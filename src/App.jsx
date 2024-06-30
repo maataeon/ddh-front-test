@@ -59,6 +59,10 @@ const App = () => {
             element={<ProductosPage searchTerm={searchTerm} />}
           />
           <Route path="productos/new" element={<AddEditProductoPage />} />
+          <Route
+            path="productos/edit/:productoId"
+            element={<AddEditProductoPage />}
+          />
           <Route path="producto/:productoId" element={<ProductoPage />} />
           <Route path="contacto" element={<ContactoPage />} />
           <Route path="login" element={<LoginPage />} />
