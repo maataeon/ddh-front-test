@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #f7f7f7;
+  position: relative;
 }
 
 .Header-Logo {
