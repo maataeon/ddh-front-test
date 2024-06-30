@@ -1,70 +1,108 @@
-import { Button, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import AddIcon from "@mui/icons-material/Add";
 import "./filtroUsuarios.css";
 
-const FiltroUsuarios = ({ setParameters }) => {
-  const [razonSocial, setRazonSocial] = useState("");
-  const [cuit, setCuit] = useState("");
-  const [telefono, setTelefono] = useState("");
-  const [estado, setEstado] = useState("");
-  const [tipoPerfil, setTipoPerfil] = useState("");
+const FiltroUsuarios = ({ setParameters, handleAlta, perfiles }) => {
+  const [filters, setFilters] = useState({
+    nombre: "",
+    documento: "",
+    telefono: "",
+    estado: "",
+    idPerfil: 1,
+  });
 
-  // Function to handle the search
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
   const search = () => {
-    // Gather input values into a JSON object
-    const searchParams = {
-      razonSocial,
-      cuit,
-      telefono,
-      estado,
-      tipoPerfil,
-    };
-    setParameters(searchParams);
+    setParameters(filters);
   };
 
   return (
     <div>
       <div className="UsuariosFiltro-Inputs">
-        {/* Text Input Fields */}
         <TextField
           size="small"
           label="Razon Social"
           variant="outlined"
-          value={razonSocial}
-          onChange={(e) => setRazonSocial(e.target.value)}
+          name="nombre"
+          value={filters.nombre}
+          onChange={handleChange}
         />
         <TextField
           size="small"
           label="CUIT"
           variant="outlined"
-          value={cuit}
-          onChange={(e) => setCuit(e.target.value)}
+          name="documento"
+          type="number"
+          value={filters.documento}
+          onChange={handleChange}
         />
         <TextField
           size="small"
           label="Telefono"
           variant="outlined"
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
+          name="telefono"
+          type="number"
+          value={filters.telefono}
+          onChange={handleChange}
         />
-        <TextField
-          size="small"
-          label="Estado"
-          variant="outlined"
-          value={estado}
-          onChange={(e) => setEstado(e.target.value)}
-        />
-        <TextField
-          size="small"
-          label="Tipo de Perfil"
-          variant="outlined"
-          value={tipoPerfil}
-          onChange={(e) => setTipoPerfil(e.target.value)}
-        />
+        <FormControl variant="outlined" size="small">
+          <InputLabel id="estado-label">Estado</InputLabel>
+          <Select
+            labelId="estado-label"
+            name="estado"
+            value={filters.estado} // Cambia este valor según el estado seleccionado
+            label="Estado"
+            onChange={handleChange}
+          >
+            <MenuItem value={1}>Activado</MenuItem>
+            <MenuItem value={2}>Pendiente</MenuItem>
+            <MenuItem value={3}>Desactivado</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl variant="outlined" size="small">
+          <InputLabel id="perfil-label">Perfil</InputLabel>
+          <Select
+            labelId="perfil-label"
+            name="idPerfil"
+            value={filters.idPerfil}
+            label="Perfil"
+            onChange={handleChange}
+          >
+            {[{ idPerfil: null, nombre: "Todos" }, ...perfiles].map(
+              (perfil) => (
+                <MenuItem key={perfil.idPerfil} value={perfil.idPerfil}>
+                  {perfil.nombre}
+                </MenuItem>
+              )
+            )}
+          </Select>
+        </FormControl>
       </div>
-      {/* Search Button */}
       <div className="UsuariosFiltro-ButtonBox">
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<AddIcon />}
+          onClick={handleAlta}
+        >
+          Alta
+        </Button>
         <Button variant="contained" color="primary" onClick={search}>
           Buscar
         </Button>
@@ -75,6 +113,8 @@ const FiltroUsuarios = ({ setParameters }) => {
 
 FiltroUsuarios.propTypes = {
   setParameters: PropTypes.func.isRequired,
+  handleAlta: PropTypes.func.isRequired,
+  perfiles: PropTypes.array.isRequired,
 };
 
 export default FiltroUsuarios;

@@ -3,6 +3,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
 .TablaUsuarios-Header,
 .TablaUsuarios-Row {
   display: flex;
@@ -19,8 +20,8 @@
 }
 
 
-.TablaUsuarios-Header > div,
-.TablaUsuarios-Row > div {
+.TablaUsuarios-Header>div,
+.TablaUsuarios-Row>div {
   padding: 10px;
   flex: 1;
 }
@@ -46,7 +47,7 @@
 }
 
 .TablaUsuarios-Acciones {
-  /* Custom styles for Acciones column */
+  width: 5rem;
 }
 
 .TablaUsuarios-EditButton,

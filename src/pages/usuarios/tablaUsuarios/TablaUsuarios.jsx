@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import "./tablaUsuarios.css";
+import { IconButton } from "@mui/material";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
-const TablaUsuarios = ({ usuarios }) => {
+const TablaUsuarios = ({ usuarios, handleEdit, handleDelete }) => {
   return (
     <div className="TablaUsuarios-Container">
       <div className="TablaUsuarios-Header">
@@ -10,7 +13,7 @@ const TablaUsuarios = ({ usuarios }) => {
         <div className="TablaUsuarios-telefono">Telefono</div>
         <div className="TablaUsuarios-estado">Estado</div>
         <div className="TablaUsuarios-tipoPerfil">Tipo de Perfil</div>
-        <div className="TablaUsuarios-acciones">Acciones</div>
+        <div className="TablaUsuarios-acciones"></div>
       </div>
 
       {/* Render data rows dynamically */}
@@ -26,8 +29,12 @@ const TablaUsuarios = ({ usuarios }) => {
             {user.perfiles.map((perfil) => perfil.nombre).join(", ")}
           </div>
           <div className="TablaUsuarios-Acciones">
-            <button className="TablaUsuarios-EditButton">Editar</button>
-            <button className="TablaUsuarios-DeleteButton">Borrar</button>
+            <IconButton onClick={() => handleEdit(user)} aria-label="edit">
+              <CreateOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={() => handleDelete(user)} aria-label="delete">
+              <DeleteOutlineOutlinedIcon />
+            </IconButton>
           </div>
         </div>
       ))}
@@ -47,6 +54,8 @@ TablaUsuarios.propTypes = {
       // Add more PropTypes as needed for other properties
     })
   ).isRequired,
+  handleEdit: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default TablaUsuarios;

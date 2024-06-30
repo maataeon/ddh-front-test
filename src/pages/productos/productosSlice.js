@@ -51,6 +51,18 @@ export const saveProduct = createAsyncThunk(
   }
 );
 
+export const updateProduct = createAsyncThunk(
+  "productos/updateProduct",
+  async (product, { rejectWithValue }) => {
+    try {
+      const response = await API.updateProduct(product);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const deleteProduct = createAsyncThunk(
   "productos/deleteProduct",
   async (product, { rejectWithValue }) => {

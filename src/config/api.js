@@ -17,7 +17,9 @@ class APIConfig {
       (response) => response,
       (error) => {
         if (error.response && error.response.status === 401) {
-          const isAuthRequest = error.config.url.includes("/usuario/checkAuth");
+          const isAuthRequest =
+            error.config.url.includes("/usuario/checkAuth") ||
+            error.config.url.includes("/usuario/auth");
           if (!isAuthRequest) {
             console.log("Se recibió un error 401. Redirigiendo al usuario...");
             const redirectUrl = `/login?redirect=${window.location.pathname}`;
@@ -69,9 +71,9 @@ class APIConfig {
     return response.data;
   }
 
-  async getUsuarios() {
+  async getUsuarios(parameters) {
     const url = `${this.baseURL}/usuario/getAll`;
-    const requestBody = { API_KEY: this.API_KEY, since: 0 };
+    const requestBody = { ...parameters, API_KEY: this.API_KEY, since: 0 };
     const response = await axios.post(url, requestBody, {
       headers: {
         "Content-Type": "application/json",
@@ -93,6 +95,17 @@ class APIConfig {
 
   async saveProduct(formData) {
     const url = `${this.baseURL}/producto/save`;
+    formData.append("API_KEY", this.API_KEY);
+    const response = await axios.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  }
+
+  async updateProduct(formData) {
+    const url = `${this.baseURL}/producto/update`;
     formData.append("API_KEY", this.API_KEY);
     const response = await axios.post(url, formData, {
       headers: {

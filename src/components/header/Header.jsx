@@ -10,6 +10,7 @@ import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import LoginIcon from "@mui/icons-material/Login";
 import "./header.css";
 import { checkAuth, logout } from "../../slices/authSlice";
+import PeopleIcon from "@mui/icons-material/People";
 
 const Header = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,7 +29,7 @@ const Header = ({ onSearch }) => {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       onSearch(searchTerm);
-      navigate(`/productos?q=${encodeURIComponent(searchTerm)}`);
+      navigate(`/productos?q=${encodeURIComponent(searchTerm.trim())}`);
     }
   };
 
@@ -68,10 +69,16 @@ const Header = ({ onSearch }) => {
           <Typography>Contacto</Typography>
         </Link>
         {isAuthenticated ? (
-          <div className="Navbar-Item" onClick={handleLogout}>
-            <LoginIcon />
-            <Typography>Salir</Typography>
-          </div>
+          <>
+            <Link to="/usuarios" className="Navbar-Item">
+              <PeopleIcon />
+              <Typography>Usuarios</Typography>
+            </Link>
+            <div className="Navbar-Item" onClick={handleLogout}>
+              <LoginIcon />
+              <Typography>Salir</Typography>
+            </div>
+          </>
         ) : (
           <Link to="/login" className="Navbar-Item">
             <LoginIcon />

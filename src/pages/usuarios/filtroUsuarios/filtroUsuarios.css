@@ -1,12 +1,24 @@
 .UsuariosFiltro-Inputs {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
-  margin: 1rem 0;
+  /* Permite que los elementos se ajusten a la siguiente línea si es necesario */
+  align-items: center;
+  /* Centra verticalmente los elementos */
+  gap: 1rem;
+  /* Espacio entre elementos */
+}
+
+.UsuariosFiltro-Inputs .MuiFormControl-root {
+  margin-right: 10px;
+  /* Espacio entre elementos */
+  min-width: 14rem;
+  margin: .5rem 0;
+  /* Ancho mínimo uniforme */
 }
 
 .UsuariosFiltro-ButtonBox {
   display: flex;
   justify-content: flex-end;
   margin: 1rem 0 2rem 0;
+  gap: 2rem;
 }

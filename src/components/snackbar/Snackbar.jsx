@@ -11,7 +11,7 @@ const Snackbar = () => {
   };
 
   return (
-    <MuiSnackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+    <MuiSnackbar open={open} autoHideDuration={60000} onClose={handleClose}>
       <Alert onClose={handleClose} severity={severity}>
         {message}
       </Alert>

@@ -1,12 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../config/api';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API from "../../config/api";
 
 // Definir una acción asincrónica para obtener usuarios
 export const fetchUsuarios = createAsyncThunk(
-  'usuarios/fetchUsuarios',
-  async (_, { rejectWithValue }) => {
+  "usuarios/fetchUsuarios",
+  async (parameters, { rejectWithValue }) => {
     try {
-      const data = await API.getUsuarios();
+      const data = await API.getUsuarios(parameters);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -16,7 +16,7 @@ export const fetchUsuarios = createAsyncThunk(
 
 // Define el slice
 const usuariosSlice = createSlice({
-  name: 'usuarios',
+  name: "usuarios",
   initialState: {
     usuarios: [],
     loading: false,

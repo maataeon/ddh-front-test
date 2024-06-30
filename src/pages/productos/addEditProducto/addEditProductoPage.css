@@ -7,3 +7,18 @@ div.AddEditProductoPage-Card {
   display: flex;
   justify-content: flex-end;
 }
+
+.AddEditProductoPage-Snackbar {
+  display: flex;
+  gap: .25rem;
+}
+
+a.AddEditProductoPage-Link {
+  text-decoration: underline;
+  color: blue;
+}
+
+div.Producto-Imagen {
+  display: flex;
+  margin: 1rem 0;
+}

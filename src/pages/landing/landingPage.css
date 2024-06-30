@@ -1,6 +1,7 @@
 .LandingPage-Background {
   display: flex;
   flex-direction: column;
+  margin-top: -8rem;
 }
 
 .Landing-Portada {

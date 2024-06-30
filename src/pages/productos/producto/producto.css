@@ -27,10 +27,8 @@
 .Volver {
     display: flex;
     gap: 1rem;
-    margin: 1rem 0 2rem 0;
     align-items: center;
 }
-
 
 .Volver svg {
     scale: 1.5;
@@ -47,6 +45,13 @@ p.Volver-Texto {
     color: #000000;
 }
 
+.Producto-Hader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 3rem 0;
+}
+
 .Producto-Portada {
     width: 19rem;
     display: flex;
@@ -57,3 +62,4 @@ p.Volver-Texto {
 
 .Producto-Informacion {
     max-width: 30rem;
+}

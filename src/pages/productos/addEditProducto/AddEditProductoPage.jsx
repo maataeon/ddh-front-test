@@ -4,6 +4,7 @@ import {
   fetchProductoDetail,
   getPerfiles,
   saveProduct,
+  updateProduct,
 } from "../productosSlice";
 import {
   Card,
@@ -26,6 +27,7 @@ import {
 } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
 import { useParams } from "react-router-dom";
+import config from "../../../config/config";
 
 const AddEditProductoPage = () => {
   const dispatch = useDispatch();
@@ -43,6 +45,7 @@ const AddEditProductoPage = () => {
   });
 
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const [errors, setErrors] = useState({
     nombre: false,
@@ -55,16 +58,18 @@ const AddEditProductoPage = () => {
   const { productoId } = useParams();
 
   useEffect(() => {
-    dispatch(showLoading());
-    dispatch(fetchProductoDetail(productoId))
-      .unwrap()
-      .then((response) => {
-        dispatch(hideLoading());
-        setProducto({ ...response.msg });
-      })
-      .catch((error) => {
-        dispatch(hideLoading());
-      });
+    if (productoId && productoId.trim()) {
+      dispatch(showLoading());
+      dispatch(fetchProductoDetail(productoId))
+        .unwrap()
+        .then((response) => {
+          dispatch(hideLoading());
+          setProducto({ ...response.msg });
+        })
+        .catch((error) => {
+          dispatch(hideLoading());
+        });
+    }
   }, [dispatch, productoId]);
 
   const handleInputChange = (event) => {
@@ -75,6 +80,7 @@ const AddEditProductoPage = () => {
 
   const handleFileChange = (event) => {
     setImage(event.target.files[0]);
+    setPreview(URL.createObjectURL(event.target.files[0]));
   };
 
   const handleSubmit = (event) => {
@@ -95,14 +101,29 @@ const AddEditProductoPage = () => {
       formData.append("image", image);
     }
 
+    const asyncThunk = productoId ? updateProduct : saveProduct;
     dispatch(showLoading());
-    dispatch(saveProduct(formData))
+    dispatch(asyncThunk(formData))
       .unwrap()
-      .then(() => {
+      .then((response) => {
         dispatch(hideLoading());
         dispatch(
           showSnackbar({
-            message: `Se guardó el producto ${producto.nombre}`,
+            message: (
+              <div className="AddEditProductoPage-Snackbar">
+                {`Se ${productoId ? "modificó" : "guradó"}`}
+                <a
+                  className="AddEditProductoPage-Link"
+                  href={`/producto/${response.idProducto}`}
+                >{`${producto.nombre}`}</a>
+                <a
+                  className="AddEditProductoPage-Link"
+                  href={`/categorias/${response.idCategoria}`}
+                >
+                  {"(ir a la categoría)"}
+                </a>
+              </div>
+            ),
             severity: "success",
           })
         );
@@ -122,7 +143,9 @@ const AddEditProductoPage = () => {
         dispatch(hideLoading());
         dispatch(
           showSnackbar({
-            message: "Hubo un problema al guardar el producto",
+            message: `Hubo un problema al ${
+              productoId ? "midificar" : "guardar"
+            } el producto`,
             severity: "error",
           })
         );
@@ -223,14 +246,42 @@ const AddEditProductoPage = () => {
                 </Typography>
               )}
             </FormControl>
-            <FormControl fullWidth margin="normal" error={errors.imagen}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ marginTop: "16px" }}
-              />
-            </FormControl>
+            <Box
+              className="Producto-Imagen"
+              alignItems="center"
+              margin="normal"
+            >
+              <FormControl fullWidth error={Boolean(image)}>
+                <input
+                  id="file-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
+                <label htmlFor="file-input">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component="span"
+                    style={{ marginTop: "16px" }}
+                  >
+                    Select Image
+                  </Button>
+                </label>
+              </FormControl>
+              {(preview || producto.imagen) && (
+                <Box marginLeft={2}>
+                  <img
+                    src={
+                      preview ?? `${config.apiUrl}/imagen/${producto.imagen}`
+                    }
+                    alt="Preview"
+                    style={{ maxWidth: "100px", maxHeight: "100px" }}
+                  />
+                </Box>
+              )}
+            </Box>
 
             <TextField
               fullWidth
