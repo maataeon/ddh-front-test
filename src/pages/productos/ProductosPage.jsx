@@ -16,6 +16,7 @@ const ProductosPage = () => {
   const productos = useSelector((state) => state.productos.productos);
   const loading = useSelector((state) => state.productos.loading);
   const error = useSelector((state) => state.productos.error);
+  const permisos = useSelector((state) => state.auth.permisos);
 
   const { idCategoria } = useParams();
 
@@ -40,9 +41,11 @@ const ProductosPage = () => {
     <div className="Page">
       <div className="ProductosPage-Header">
         <Titulo icon={<ShoppingCartOutlinedIcon />}>Lista de productos</Titulo>
-        <Link to="/productos/new">
-          <AddIcon />
-        </Link>
+        {permisos.includes("FULL_ADMIN") && (
+          <Link to="/productos/new">
+            <AddIcon />
+          </Link>
+        )}
       </div>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}

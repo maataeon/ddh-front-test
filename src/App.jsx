@@ -14,6 +14,7 @@ import KeyboardEventHandler from "./components/keyboardEventHandler/KeyboardEven
 import AddEditProductoPage from "./pages/productos/addEditProducto/AddEditProductoPage";
 import Snackbar from "./components/snackbar/Snackbar";
 import Loading from "./components/loading/Loading";
+import { useSelector } from "react-redux";
 
 /*
   El primer nivel deben ser pages.
@@ -28,6 +29,8 @@ const headerExcludedPaths = ["/login", "/registrarse"];
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const permisos = useSelector((state) => state.auth.permisos);
 
   const [showHeader, setShowHeader] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,16 +61,22 @@ const App = () => {
             path="productos"
             element={<ProductosPage searchTerm={searchTerm} />}
           />
-          <Route path="productos/new" element={<AddEditProductoPage />} />
-          <Route
-            path="productos/edit/:productoId"
-            element={<AddEditProductoPage />}
-          />
           <Route path="producto/:productoId" element={<ProductoPage />} />
           <Route path="contacto" element={<ContactoPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="registrarse" element={<RegistrarsePage />} />
-          <Route path="usuarios" element={<UsuariosPage />} />
+          {permisos.includes("FULL_ADMIN") && (
+            <Route path="productos/new" element={<AddEditProductoPage />} />
+          )}
+          {permisos.includes("FULL_ADMIN") && (
+            <Route
+              path="productos/edit/:productoId"
+              element={<AddEditProductoPage />}
+            />
+          )}
+          {permisos.includes("FULL_ADMIN") && (
+            <Route path="usuarios" element={<UsuariosPage />} />
+          )}
         </Routes>
       </div>
       <KeyboardEventHandler />

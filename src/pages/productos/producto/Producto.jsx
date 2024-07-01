@@ -6,8 +6,11 @@ import PropTypesShapes from "../../../config/PropTypesShapes";
 import config from "../../../config/config";
 //import GaleriaDeImagenes from "../../../components/galeriaImagenes/GaleriaImagenes";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import { useSelector } from "react-redux";
 
 const Producto = ({ categoria, producto }) => {
+  const permisos = useSelector((state) => state.auth.permisos);
+
   return (
     <div className="Producto-Container">
       <div className="Producto-Hader">
@@ -19,11 +22,13 @@ const Producto = ({ categoria, producto }) => {
           <Typography className="Volver-Texto">Volver al listado</Typography>
           <div>{producto.id}</div>
         </Link>
-        <Link to={`/productos/edit/${producto.idProducto}`}>
-          <IconButton>
-            <CreateOutlinedIcon />
-          </IconButton>
-        </Link>
+        {permisos.includes("FULL_ADMIN") && (
+          <Link to={`/productos/edit/${producto.idProducto}`}>
+            <IconButton>
+              <CreateOutlinedIcon />
+            </IconButton>
+          </Link>
+        )}
       </div>
       <div className="Producto">
         {/*<GaleriaDeImagenes imagenes={producto.imagenes ?? []} />*/}

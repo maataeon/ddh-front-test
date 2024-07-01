@@ -35,6 +35,9 @@ const authSlice = createSlice({
     isAuthenticated: false,
     loading: false,
     error: null,
+    usuario: null,
+    perfil: null,
+    permisos: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -43,9 +46,15 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(checkAuth.fulfilled, (state) => {
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.isAuthenticated = true;
         state.loading = false;
+        state.usuario = action.payload.usuario;
+        state.perfil = action.payload.perfil;
+        if (action.payload.permiso) {
+          state.permisos = [action.payload.permiso];
+        }
       })
       .addCase(checkAuth.rejected, (state, action) => {
         state.isAuthenticated = false;

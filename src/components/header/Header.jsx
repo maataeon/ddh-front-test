@@ -17,10 +17,15 @@ const Header = ({ onSearch }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const permisos = useSelector((state) => state.auth.permisos);
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log({ permisos });
+  }, [permisos]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -70,10 +75,12 @@ const Header = ({ onSearch }) => {
         </Link>
         {isAuthenticated ? (
           <>
-            <Link to="/usuarios" className="Navbar-Item">
-              <PeopleIcon />
-              <Typography>Usuarios</Typography>
-            </Link>
+            {permisos.includes("FULL_ADMIN") && (
+              <Link to="/usuarios" className="Navbar-Item">
+                <PeopleIcon />
+                <Typography>Usuarios</Typography>
+              </Link>
+            )}
             <div className="Navbar-Item" onClick={handleLogout}>
               <LoginIcon />
               <Typography>Salir</Typography>

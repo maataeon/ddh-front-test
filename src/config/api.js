@@ -172,7 +172,7 @@ class APIConfig {
 
   async checkAuth() {
     const response = await axios.get(`${this.baseURL}/usuario/checkAuth`);
-    return { response };
+    return response.data;
   }
   async logout() {
     const response = await axios.get(`${this.baseURL}/usuario/logout`);

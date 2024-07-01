@@ -6,7 +6,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import { Link } from "react-router-dom";
 import PropTypesShapes from "../../../config/PropTypesShapes";
 import { IconButton } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct } from "../productosSlice";
 import { hideLoading } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
@@ -16,6 +16,7 @@ import { useState } from "react";
 
 const ProductoPreview = ({ producto, initializeProductos }) => {
   const [openModal, setOpenModal] = useState(false);
+  const permisos = useSelector((state) => state.auth.permisos);
 
   const dispatch = useDispatch();
 
@@ -60,15 +61,17 @@ const ProductoPreview = ({ producto, initializeProductos }) => {
         </div>
         <div className="Item-Precio">$ {producto?.precio} /kg</div>
       </Link>
-      <div className="Item-Acciones">
-        <IconButton onClick={handleEdit} aria-label="delete">
-          <CreateOutlinedIcon />
-        </IconButton>
-        <IconButton onClick={() => setOpenModal(true)} aria-label="delete">
-          <DeleteOutlineOutlinedIcon />
-        </IconButton>
-        {/*<DragIndicatorOutlinedIcon />*/}
-      </div>
+      {permisos.includes("FULL_ADMIN") && (
+        <div className="Item-Acciones">
+          <IconButton onClick={handleEdit} aria-label="delete">
+            <CreateOutlinedIcon />
+          </IconButton>
+          <IconButton onClick={() => setOpenModal(true)} aria-label="delete">
+            <DeleteOutlineOutlinedIcon />
+          </IconButton>
+          {/*<DragIndicatorOutlinedIcon />*/}
+        </div>
+      )}
       <ConfirmationDialog
         open={openModal}
         onClose={() => setOpenModal(false)}

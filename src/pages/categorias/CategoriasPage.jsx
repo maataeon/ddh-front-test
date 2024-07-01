@@ -37,6 +37,8 @@ const CategoriasPage = () => {
   });
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const permisos = useSelector((state) => state.auth.permisos);
+
   useEffect(() => {
     initializeCategorias();
   }, []);
@@ -134,9 +136,11 @@ const CategoriasPage = () => {
     <div className="Page Categoria">
       <div className="Categorias-Header">
         <Titulo icon={<CategoryOutlinedIcon />}>Categoria</Titulo>
-        <IconButton onClick={handleOpenCreate}>
-          <AddIcon />
-        </IconButton>
+        {permisos.includes("FULL_ADMIN") && (
+          <IconButton onClick={handleOpenCreate}>
+            <AddIcon />
+          </IconButton>
+        )}
       </div>
       <div className="Categorias-List">
         {categorias.length > 0 &&
