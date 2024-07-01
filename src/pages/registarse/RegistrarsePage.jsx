@@ -1,11 +1,11 @@
-import Registro from "../../components/registro/Registro";
+import Registro from "./registro/Registro";
 
 const RegistrarsePage = () => {
   return (
     <div className="Page">
-        <Registro />
+      <Registro />
     </div>
-  )
+  );
 };
 
 export default RegistrarsePage;

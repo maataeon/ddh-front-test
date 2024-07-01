@@ -6,6 +6,7 @@ import categoriasSlice from "../pages/categorias/categoriasSlice";
 import snackbarSlice from "../components/snackbar/snackbarSlice";
 import loadingSlice from "../components/loading/loadingSlice";
 import authSlice from "../slices/authSlice";
+import registroSlice from "../pages/registarse/registroSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     snackbar: snackbarSlice,
     loading: loadingSlice,
     auth: authSlice,
+    registro: registroSlice,
   },
 });
