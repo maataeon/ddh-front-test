@@ -158,7 +158,8 @@ const AddEditProductoPage = () => {
       producto.descripcion !== "" &&
       producto.precio > 0 &&
       producto.idCategoria !== "" &&
-      producto.idPerfil !== ""
+      producto.idPerfil !== "" &&
+      (producto.imagen || Boolean(image))
     );
   };
 
@@ -169,15 +170,10 @@ const AddEditProductoPage = () => {
 
   return (
     <div className="Page">
-      <Card className="AddEditProductoPage-Card">
+      <div className="AddEditProductoPage-Card">
         <CardHeader title={`${productoId ? "Editar" : "Nuevo"} Producto`} />
         <CardContent>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               fullWidth
               size="small"
@@ -297,20 +293,21 @@ const AddEditProductoPage = () => {
               error={errors.descripcion}
               helperText={errors.descripcion ? "Descripción es requerida" : ""}
             />
-            <div className="AddEditProductoPage-ButtonsBox">
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                sx={{ mt: 3, mb: 2 }}
-                disabled={!isFormValid()}
-              >
-                Guardar
-              </Button>
-            </div>
           </Box>
         </CardContent>
-      </Card>
+        <div className="AddEditProductoPage-ButtonsBox">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 3, mb: 2 }}
+            disabled={!isFormValid()}
+            onClick={handleSubmit}
+          >
+            Guardar
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

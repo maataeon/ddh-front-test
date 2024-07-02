@@ -50,7 +50,10 @@ const Producto = ({ categoria, producto }) => {
               {`$ ${producto?.precio}`}
             </Typography>
           ) : (
-            <Link to={"/registrarse"} className="Producto-VerPrecio">
+            <Link
+              to={`/login?redirect=${window.location.pathname}`}
+              className="Producto-VerPrecio"
+            >
               <Typography
                 variant="h4"
                 align="right"

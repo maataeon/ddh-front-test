@@ -43,7 +43,7 @@ const Header = ({ onSearch }) => {
     dispatch(logout())
       .unwrap()
       .then(() => {
-        navigate("/login");
+        navigate(`/login?redirect=${window.location.pathname}`);
       })
       .catch((error) => {
         dispatch(

@@ -63,7 +63,10 @@ const ProductoPreview = ({ producto, initializeProductos }) => {
         {isAuthenticated ? (
           <div className="Item-Precio">$ {producto?.precio} /kg</div>
         ) : (
-          <Link to={"/registrarse"} className="Producto-VerPrecio">
+          <Link
+            to={`/login?redirect=${window.location.pathname}`}
+            className="Producto-VerPrecio"
+          >
             <div className="Item-Precio">Ver precios</div>
           </Link>
         )}
