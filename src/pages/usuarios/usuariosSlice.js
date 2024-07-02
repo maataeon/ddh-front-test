@@ -13,6 +13,28 @@ export const fetchUsuarios = createAsyncThunk(
     }
   }
 );
+export const createUser = createAsyncThunk(
+  "usuarios/createUser",
+  async (parameters, { rejectWithValue }) => {
+    try {
+      const data = await API.createUser(parameters);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const deleteUser = createAsyncThunk(
+  "usuarios/deleteUser",
+  async (user, { rejectWithValue }) => {
+    try {
+      const data = await API.deleteUser(user);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 // Define el slice
 const usuariosSlice = createSlice({

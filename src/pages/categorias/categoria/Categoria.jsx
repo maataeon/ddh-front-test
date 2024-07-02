@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Typography, IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./categoria.css";
 import { Link } from "react-router-dom";
 import { deleteCategoria, getCategorias } from "../categoriasSlice";
@@ -15,6 +15,8 @@ import ConfirmationDeleteDialog from "../confirmationDeleteDialog/ConfirmationDe
 const Categoria = ({ categoria, handleOpenEdit }) => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
+
+  const permisos = useSelector((state) => state.auth.permisos);
 
   const handleDelete = (associatedProducts) => {
     dispatch(
@@ -58,24 +60,26 @@ const Categoria = ({ categoria, handleOpenEdit }) => {
           {categoria.nombre}
         </Typography>
       </Link>
-      <div className="CategoriaContainer-Actions">
-        <IconButton
-          className="DeleteButton"
-          onClick={() => setOpenModal(true)}
-          aria-label="delete"
-          size="small"
-        >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton
-          className="EditButton"
-          onClick={() => handleOpenEdit(categoria)}
-          aria-label="edit"
-          size="small"
-        >
-          <EditIcon />
-        </IconButton>
-      </div>
+      {permisos.includes("FULL_ADMIN") && (
+        <div className="CategoriaContainer-Actions">
+          <IconButton
+            className="DeleteButton"
+            onClick={() => setOpenModal(true)}
+            aria-label="delete"
+            size="small"
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            className="EditButton"
+            onClick={() => handleOpenEdit(categoria)}
+            aria-label="edit"
+            size="small"
+          >
+            <EditIcon />
+          </IconButton>
+        </div>
+      )}
 
       <ConfirmationDeleteDialog
         open={openModal}

@@ -11,6 +11,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import "./header.css";
 import { checkAuth, logout } from "../../slices/authSlice";
 import PeopleIcon from "@mui/icons-material/People";
+import { showSnackbar } from "../snackbar/snackbarSlice";
 
 const Header = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,8 +40,19 @@ const Header = ({ onSearch }) => {
   };
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+    dispatch(logout())
+      .unwrap()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((error) => {
+        dispatch(
+          showSnackbar({
+            message: "Hubo un error al realizar el logout",
+            severity: "error",
+          })
+        );
+      });
   };
 
   return (

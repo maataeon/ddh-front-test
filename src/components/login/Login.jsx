@@ -1,23 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ddhLogo from "../../assets/ddh-logo.png";
 import { Button, Card, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  loginThunk,
-  setPassword,
-  setUsername,
-  clearError,
-  logout,
-} from "./loginSlice";
+import { loginThunk, clearError, logout } from "./loginSlice";
 import "./login.css";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const username = useSelector((state) => state.login.username);
-  const password = useSelector((state) => state.login.password);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const error = useSelector((state) => state.login.error);
   const success = useSelector((state) => state.login.success);
 
@@ -26,8 +20,25 @@ const Login = () => {
       usuario: username,
       password,
     };
+    console.log({ userData });
+    dispatch(loginThunk(userData))
+      .unwrap()
+      .then(() => {
+        setUsername("");
+        setPassword("");
 
-    dispatch(loginThunk(userData));
+        const params = new URLSearchParams(window.location.search);
+        const redirectParam = params.get("redirect");
+        if (redirectParam) {
+          navigate(redirectParam);
+        } else {
+          navigate("/categorias");
+        }
+      })
+      .catch(() => {
+        setUsername("");
+        setPassword("");
+      });
   };
 
   const handleUsernameInputChange = (e) => {
@@ -45,25 +56,6 @@ const Login = () => {
       console.log("Error de autenticación:", error);
     }
   }, [error]);
-
-  useEffect(() => {
-    if (success) {
-      const params = new URLSearchParams(window.location.search);
-      console.log("Params after authentication:", params.toString());
-      if (params.get("clear") === "true") {
-        dispatch(logout());
-      } else {
-        console.log("Login success");
-        const redirectParam = params.get("redirect");
-        console.log("Redirect parameter:", redirectParam);
-        if (redirectParam) {
-          navigate(redirectParam);
-        } else {
-          navigate("/usuarios");
-        }
-      }
-    }
-  }, [success, navigate, dispatch]);
 
   const handleCloseSnackbar = () => {
     dispatch(clearError());

@@ -82,6 +82,28 @@ class APIConfig {
     return response.data;
   }
 
+  async createUser(user) {
+    const url = `${this.baseURL}/usuario/create`;
+    const requestBody = { ...user, API_KEY: this.API_KEY };
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  }
+
+  async deleteUser(user) {
+    const url = `${this.baseURL}/usuario/delete`;
+    const requestBody = { ...user, API_KEY: this.API_KEY };
+    const response = await axios.post(url, requestBody, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  }
+
   async getProductoDetail(productId) {
     const url = `${this.baseURL}/producto/detail`;
     const requestBody = { productId, API_KEY: this.API_KEY };

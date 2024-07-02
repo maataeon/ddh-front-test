@@ -27,3 +27,8 @@ a.Item-Link {
     align-items: center;
     padding-right: 3rem;
 }
+
+a.Item-VerPrecio {
+    text-decoration: underline;
+    color: #F6831F;
+}

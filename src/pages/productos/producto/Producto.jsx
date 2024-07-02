@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const Producto = ({ categoria, producto }) => {
   const permisos = useSelector((state) => state.auth.permisos);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   return (
     <div className="Producto-Container">
@@ -40,14 +41,25 @@ const Producto = ({ categoria, producto }) => {
         </div>
         <div className="Producto-Informacion">
           <Typography variant="h3">{producto.nombre}</Typography>
-          <Typography
-            variant="h4"
-            align="right"
-            style={{ margin: "3rem 0 5rem 0" }}
-          >
-            {" "}
-            $ {producto?.precio}
-          </Typography>
+          {isAuthenticated ? (
+            <Typography
+              variant="h4"
+              align="right"
+              style={{ margin: "3rem 0 5rem 0" }}
+            >
+              {`$ ${producto?.precio}`}
+            </Typography>
+          ) : (
+            <Link to={"/registrarse"} className="Producto-VerPrecio">
+              <Typography
+                variant="h4"
+                align="right"
+                style={{ margin: "3rem 0 5rem 0" }}
+              >
+                Ver precios
+              </Typography>
+            </Link>
+          )}
           <Typography variant="h5">{producto.descripcion}</Typography>
         </div>
       </div>

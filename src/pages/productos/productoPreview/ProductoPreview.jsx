@@ -17,6 +17,7 @@ import { useState } from "react";
 const ProductoPreview = ({ producto, initializeProductos }) => {
   const [openModal, setOpenModal] = useState(false);
   const permisos = useSelector((state) => state.auth.permisos);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const dispatch = useDispatch();
 
@@ -59,7 +60,13 @@ const ProductoPreview = ({ producto, initializeProductos }) => {
           </div>
           <div>{producto.nombre}</div>
         </div>
-        <div className="Item-Precio">$ {producto?.precio} /kg</div>
+        {isAuthenticated ? (
+          <div className="Item-Precio">$ {producto?.precio} /kg</div>
+        ) : (
+          <Link to={"/registrarse"} className="Producto-VerPrecio">
+            <div className="Item-Precio">Ver precios</div>
+          </Link>
+        )}
       </Link>
       {permisos.includes("FULL_ADMIN") && (
         <div className="Item-Acciones">

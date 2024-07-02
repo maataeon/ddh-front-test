@@ -18,9 +18,14 @@ import GroupIcon from "@mui/icons-material/Group";
 import Titulo from "../../components/titulo/Titulo";
 import TablaUsuarios from "./tablaUsuarios/TablaUsuarios";
 import FiltroUsuarios from "./filtroUsuarios/FiltroUsuarios";
-import { fetchUsuarios } from "./usuariosSlice";
+import { createUser, deleteUser, fetchUsuarios } from "./usuariosSlice";
 import { getPerfiles } from "../productos/productosSlice";
 import "./usuariosPage.css";
+import {
+  hideLoading,
+  showLoading,
+} from "../../components/loading/loadingSlice";
+import { showSnackbar } from "../../components/snackbar/snackbarSlice";
 
 const UsuariosPage = () => {
   const [parameters, setParameters] = useState(null);
@@ -30,7 +35,7 @@ const UsuariosPage = () => {
     password: "",
     nombre: "",
     apellido: "",
-    documento: "",
+    nroDoc: "",
     telefono: "",
     estado: 1,
     idPerfil: 1,
@@ -60,7 +65,30 @@ const UsuariosPage = () => {
     setOpen(true);
   };
 
-  const handleDelete = (user) => {};
+  const handleDelete = (user) => {
+    dispatch(deleteUser({ idPersona: user.idPersona }))
+      .unwrap()
+      .then((response) => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: "Se borró el usuario",
+            severity: "success",
+          })
+        );
+
+        dispatch(fetchUsuarios({}));
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: "Hubo un error al borrar el usuario",
+            severity: "error",
+          })
+        );
+      });
+  };
 
   const handleOpen = () => {
     setCheckboxPassword(false);
@@ -75,7 +103,7 @@ const UsuariosPage = () => {
       password: "",
       nombre: "",
       apellido: "",
-      documento: "",
+      nroDoc: "",
       telefono: "",
       estado: 1,
       idPerfil: 1,
@@ -92,8 +120,28 @@ const UsuariosPage = () => {
   };
 
   const handleAlta = () => {
-    // Aquí puedes agregar la lógica para manejar el alta del usuario
-    console.log("Nuevo usuario:", newUser);
+    dispatch(showLoading());
+    dispatch(createUser(newUser))
+      .unwrap()
+      .then((response) => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: "Se guardó el nuevo usuario",
+            severity: "success",
+          })
+        );
+        setParameters({ documento: response.nroDoc });
+      })
+      .catch((error) => {
+        dispatch(hideLoading());
+        dispatch(
+          showSnackbar({
+            message: "Hubo un error al guardar el usuario",
+            severity: "error",
+          })
+        );
+      });
     handleClose();
   };
 
