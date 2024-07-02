@@ -8,6 +8,7 @@
   justify-content: space-between;
   background-color: #f7f7f7;
   position: relative;
+  z-index: 1000;
 }
 
 .Header-Logo {

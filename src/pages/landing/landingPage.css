@@ -1,7 +1,11 @@
 .LandingPage-Background {
   display: flex;
+  translate: 0 10rem;
   flex-direction: column;
-  margin-top: -8rem;
+  align-content: center;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  scale: 1.5;
 }
 
 .Landing-Portada {
@@ -60,4 +64,161 @@ a.WhatsaApp-Button {
   position: fixed;
   right: 3rem;
   bottom: 3rem;
+}
+
+.sun {
+  rotate: 632deg;
+  transform-origin: 840px 630px;
+  animation: oscillate 12s steps(3) infinite;
+
+}
+
+@keyframes oscillate {
+  0% {
+    transform: rotate(0deg);
+    scale: 1;
+  }
+
+  25% {
+    transform: rotate(60deg);
+    scale: 1.125;
+  }
+
+  50% {
+    transform: rotate(120deg);
+    scale: 1.25;
+  }
+
+  75% {
+    transform: rotate(-180deg);
+    scale: 1.125;
+  }
+
+  100% {
+    transform: rotate(240deg);
+    scale: 1;
+  }
+}
+
+
+/* Apply the animation to each cloud */
+.cloud {
+  animation: moveAndFade 5s linear infinite;
+}
+
+/* Additional styling for positioning the clouds */
+.c1 {
+  animation-delay: -0s;
+  animation-duration: 31s;
+}
+
+.c2 {
+  animation-delay: -7.6s;
+  animation-duration: 30s;
+}
+
+.c3 {
+  animation-delay: -6s;
+  animation-duration: 16s;
+}
+
+.c4 {
+  animation-delay: -5.5s;
+  animation-duration: 22s;
+}
+
+.c5 {
+  animation-delay: -2s;
+  animation-duration: 19s;
+}
+
+.c6 {
+  animation-delay: -2s;
+  animation-duration: 27s;
+}
+
+.c7 {
+  animation-delay: -2s;
+  animation-duration: 15s;
+}
+
+@keyframes moveAndFade {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(200px);
+    opacity: 0;
+  }
+}
+
+
+.sky {
+  animation: colorRotate 40s linear infinite;
+}
+
+@keyframes colorRotate {
+  0% {
+    fill: rgb(205, 233, 237);
+    /* Original sky blue */
+  }
+
+  50% {
+    fill: rgb(151, 240, 253);
+    /* Back to original sky blue */
+  }
+
+  100% {
+    fill: rgb(205, 233, 237);
+    /* Original sky blue */
+  }
+}
+
+.turbine {
+  animation: rotateBlades 12s linear infinite;
+}
+
+.t1 {
+  transform-origin: 1505px 1010px;
+}
+
+.t2 {
+  transform-origin: 1628px 1155px;
+}
+
+.t3 {
+  transform-origin: 1569px 1092px;
+}
+
+
+.t4 {
+  transform-origin: 1125px 849px;
+}
+
+.t5 {
+  transform-origin: 1047px 951px;
+}
+
+.t6 {
+  transform-origin: 964px 997px;
+}
+
+@keyframes rotateBlades {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

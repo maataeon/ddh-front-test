@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 import WhatsAppIcon from "../../assets/whatsapp-icon.svg";
+import Landing from "./landing/Landing";
 
 const LandingPage = () => {
   return (
@@ -27,7 +28,7 @@ const LandingPage = () => {
         </Button>
       </Link>*/}
       <div className="LandingPage-Background">
-        <img src={backgroundLanding} />
+        <Landing />
       </div>
 
       <a className="WhatsaApp-Button" href="https://wa.me/5491157508133">
