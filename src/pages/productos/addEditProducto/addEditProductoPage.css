@@ -1,5 +1,5 @@
 div.AddEditProductoPage-Card {
-  max-width: 40rem;
+  width: 40rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

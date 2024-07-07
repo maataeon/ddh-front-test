@@ -42,7 +42,11 @@ const ProductosPage = () => {
       <div className="ProductosPage-Header">
         <Titulo icon={<ShoppingCartOutlinedIcon />}>Lista de productos</Titulo>
         {permisos.includes("FULL_ADMIN") && (
-          <Link to="/productos/new">
+          <Link
+            to={`/productos/new${
+              idCategoria ? `?idCategoria=${idCategoria}` : ""
+            }`}
+          >
             <AddIcon />
           </Link>
         )}

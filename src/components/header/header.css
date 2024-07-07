@@ -6,7 +6,8 @@
   padding: 1rem;
   align-items: center;
   justify-content: space-between;
-  background-color: #f7f7f7;
+  /*background-color: #f7f7f7; me molesta mirar este color*/
+  background-color: var(--background-color);
   position: relative;
   z-index: 1000;
 }

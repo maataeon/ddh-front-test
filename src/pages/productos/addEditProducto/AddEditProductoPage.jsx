@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductoDetail,
@@ -18,6 +18,7 @@ import {
   Button,
   Box,
   Typography,
+  IconButton,
 } from "@mui/material";
 import "./addEditProductoPage.css";
 import { getCategorias } from "../../categorias/categoriasSlice";
@@ -26,26 +27,30 @@ import {
   showLoading,
 } from "../../../components/loading/loadingSlice";
 import { showSnackbar } from "../../../components/snackbar/snackbarSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import config from "../../../config/config";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const AddEditProductoPage = () => {
   const dispatch = useDispatch();
+
+  const [searchParams] = useSearchParams();
+  const idCategoria = searchParams.get("idCategoria");
+
   const categorias = useSelector((state) => state.categorias.categorias);
   const perfiles = useSelector((state) => state.productos.perfiles);
+
+  const [precios, setPrecios] = useState([{ idPerfil: 1, precio: "" }]);
+  const [images, setImages] = useState([]);
+  const [previews, setPreviews] = useState([]);
 
   const [producto, setProducto] = useState({
     nombre: "",
     descripcion: "",
-    precio: 0,
-    idProducto: 0,
-    idPerfil: 1,
+    idProducto: null,
     idCategoria: 1,
     estado: 1,
   });
-
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
 
   const [errors, setErrors] = useState({
     nombre: false,
@@ -57,7 +62,7 @@ const AddEditProductoPage = () => {
 
   const { productoId } = useParams();
 
-  useEffect(() => {
+  const initializeProducto = useCallback(() => {
     if (productoId && productoId.trim()) {
       dispatch(showLoading());
       dispatch(fetchProductoDetail(productoId))
@@ -65,12 +70,23 @@ const AddEditProductoPage = () => {
         .then((response) => {
           dispatch(hideLoading());
           setProducto({ ...response.msg });
+          setPrecios([
+            ...(response.msg.precios.map((precio) => ({ ...precio })) ?? []),
+          ]);
+          setImages([
+            ...(response.msg.images.map((image) => ({ ...image })) ?? []),
+          ]);
+          setPreviews([
+            ...(response.msg.images.map(
+              (image) => `${config.apiUrl}/imagen/${image.imagen}`
+            ) ?? []),
+          ]);
         })
         .catch((error) => {
           dispatch(hideLoading());
         });
     }
-  }, [dispatch, productoId]);
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -79,8 +95,65 @@ const AddEditProductoPage = () => {
   };
 
   const handleFileChange = (event) => {
-    setImage(event.target.files[0]);
-    setPreview(URL.createObjectURL(event.target.files[0]));
+    const files = Array.from(event.target.files);
+    const newImages = files.map((file) => ({
+      file,
+      idImagen: null,
+      uuid: null,
+    }));
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setImages([...images, ...newImages]);
+    setPreviews([...previews, ...newPreviews]);
+  };
+
+  const handleRemoveImage = (index) => {
+    const newImages = images.filter((_, i) => i !== index);
+    const newPreviews = previews.filter((_, i) => i !== index);
+    setImages(newImages);
+    setPreviews(newPreviews);
+  };
+
+  const handleChangePrecios = (index, event) => {
+    const { name, value } = event.target;
+    const nuevosPrecios = [...precios];
+    nuevosPrecios[index][name] = value;
+    setPrecios(nuevosPrecios);
+  };
+
+  const handleAddPrecio = () => {
+    if (getNextCategory()) {
+      setPrecios([...precios, { idPerfil: getNextCategory(), precio: "" }]);
+    } else {
+      dispatch(
+        showSnackbar({
+          message: `No hay perfiles disponibles para seleccionar`,
+          severity: "error",
+        })
+      );
+    }
+  };
+
+  const getNextCategory = () => {
+    const filerPerfiles = perfiles.filter((perfil) => !perfilInUse(perfil));
+    return filerPerfiles[0]?.idPerfil;
+  };
+
+  const perfilInUse = (perfil) => {
+    return precios.some((precio) => precio.idPerfil === perfil.idPerfil);
+  };
+
+  const handleRemovePrecio = (index) => {
+    if (precios.length > 1) {
+      const nuevosPrecios = precios.filter((_, i) => i !== index);
+      setPrecios(nuevosPrecios);
+    } else {
+      dispatch(
+        showSnackbar({
+          message: `Debe existir al menos una relación precio x producto`,
+          severity: "error",
+        })
+      );
+    }
   };
 
   const handleSubmit = (event) => {
@@ -96,10 +169,19 @@ const AddEditProductoPage = () => {
       return;
     }
     const formData = new FormData();
-    formData.append("producto", JSON.stringify(producto));
-    if (image) {
-      formData.append("image", image);
-    }
+    formData.append(
+      "producto",
+      JSON.stringify({
+        ...producto,
+        images: images.filter((img) => img.idImagen).map((img) => img.idImagen),
+        precios,
+      })
+    );
+    images.forEach((image) => {
+      if (image.file) {
+        formData.append("images[]", image.file); // Asegúrate de usar "images[]" para subir múltiple
+      }
+    });
 
     const asyncThunk = productoId ? updateProduct : saveProduct;
     dispatch(showLoading());
@@ -111,7 +193,7 @@ const AddEditProductoPage = () => {
           showSnackbar({
             message: (
               <div className="AddEditProductoPage-Snackbar">
-                {`Se ${productoId ? "modificó" : "guradó"}`}
+                {`Se ${productoId ? "modificó" : "guardó"} `}
                 <a
                   className="AddEditProductoPage-Link"
                   href={`/producto/${response.idProducto}`}
@@ -137,15 +219,17 @@ const AddEditProductoPage = () => {
           idCategoria: 1,
           estado: 1,
         });
-        setImage(null);
+        setImages([]);
+        setPreviews([]);
+        initializeProducto();
       })
       .catch((error) => {
         dispatch(hideLoading());
         dispatch(
           showSnackbar({
             message: `Hubo un problema al ${
-              productoId ? "midificar" : "guardar"
-            } el producto`,
+              productoId ? "modificar" : "guardar"
+            } el producto: ${error.message}`,
             severity: "error",
           })
         );
@@ -156,17 +240,30 @@ const AddEditProductoPage = () => {
     return (
       producto.nombre !== "" &&
       producto.descripcion !== "" &&
-      producto.precio > 0 &&
       producto.idCategoria !== "" &&
-      producto.idPerfil !== "" &&
-      (producto.imagen || Boolean(image))
+      precios.some((precio) => precio.idPerfil && precio.precio) &&
+      (images.length > 0 || previews.length > 0)
     );
   };
 
-  useEffect(() => {
-    dispatch(getCategorias());
+  const initializeCombos = useCallback(() => {
+    dispatch(getCategorias())
+      .unwrap()
+      .then((response) => {
+        if (idCategoria) {
+          setProducto({ ...producto, idCategoria });
+        }
+      });
     dispatch(getPerfiles());
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    initializeCombos();
+  }, [initializeCombos]);
+
+  useEffect(() => {
+    initializeProducto();
+  }, [initializeProducto]);
 
   return (
     <div className="Page">
@@ -184,18 +281,6 @@ const AddEditProductoPage = () => {
               onChange={handleInputChange}
               error={errors.nombre}
               helperText={errors.nombre ? "Nombre es requerido" : ""}
-            />
-            <TextField
-              fullWidth
-              size="small"
-              margin="normal"
-              label="Precio"
-              name="precio"
-              type="number"
-              value={producto.precio}
-              onChange={handleInputChange}
-              error={errors.precio}
-              helperText={errors.precio ? "Precio es requerido" : ""}
             />
             <FormControl fullWidth margin="normal" error={errors.idCategoria}>
               <InputLabel id="categorias-label">Categoria</InputLabel>
@@ -221,37 +306,83 @@ const AddEditProductoPage = () => {
                 </Typography>
               )}
             </FormControl>
-            <FormControl fullWidth margin="normal" error={errors.idPerfil}>
-              <InputLabel id="perfil-label">Perfil</InputLabel>
-              <Select
-                size="small"
-                labelId="perfil-label"
-                name="idPerfil"
-                value={producto.idPerfil}
-                onChange={handleInputChange}
+            {precios.map((precio, index) => (
+              <Box
+                key={index}
+                sx={{ display: "flex", alignItems: "center", mb: 2 }}
               >
-                {perfiles.map((perfil) => (
-                  <MenuItem key={perfil.idPerfil} value={perfil.idPerfil}>
-                    {perfil.nombre}
-                  </MenuItem>
-                ))}
-              </Select>
-              {errors.idPerfil && (
-                <Typography color="error" variant="caption">
-                  Perfil es requerido
-                </Typography>
-              )}
-            </FormControl>
+                <FormControl
+                  fullWidth
+                  margin="normal"
+                  error={!!errors.idPefil}
+                  sx={{ mr: 1 }}
+                >
+                  <InputLabel id={`perfil-label-${index}`}>Perfil</InputLabel>
+                  <Select
+                    fullWidth
+                    size="small"
+                    labelId={`perfil-label-${index}`}
+                    name="idPerfil"
+                    value={precio.idPerfil}
+                    onChange={(event) => handleChangePrecios(index, event)}
+                  >
+                    {perfiles.map((perfil) => (
+                      <MenuItem
+                        key={perfil.idPerfil}
+                        value={perfil.idPerfil}
+                        disabled={perfilInUse(perfil)}
+                      >
+                        {perfil.nombre}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.perfil && (
+                    <Typography color="error" variant="caption">
+                      Perfil es requerido
+                    </Typography>
+                  )}
+                </FormControl>
+                <TextField
+                  fullWidth
+                  size="small"
+                  margin="normal"
+                  label="Precio"
+                  name="precio"
+                  type="number"
+                  value={precio.precio}
+                  onChange={(event) => handleChangePrecios(index, event)}
+                  error={!!errors.precio}
+                  helperText={errors.precio ? "Precio es requerido" : ""}
+                  sx={{ mr: 1 }}
+                />
+                <IconButton
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => handleRemovePrecio(index)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Box>
+            ))}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddPrecio}
+              sx={{ mb: 2 }}
+            >
+              Agregar Precio x Perfil
+            </Button>
             <Box
               className="Producto-Imagen"
               alignItems="center"
               margin="normal"
             >
-              <FormControl fullWidth error={Boolean(image)}>
+              <FormControl fullWidth>
                 <input
                   id="file-input"
                   type="file"
                   accept="image/*"
+                  multiple
                   onChange={handleFileChange}
                   style={{ display: "none" }}
                 />
@@ -262,23 +393,51 @@ const AddEditProductoPage = () => {
                     component="span"
                     style={{ marginTop: "16px" }}
                   >
-                    Select Image
+                    Seleccionar Imágenes
                   </Button>
                 </label>
               </FormControl>
-              {(preview || producto.imagen) && (
-                <Box marginLeft={2}>
-                  <img
-                    src={
-                      preview ?? `${config.apiUrl}/imagen/${producto.imagen}`
-                    }
-                    alt="Preview"
-                    style={{ maxWidth: "100px", maxHeight: "100px" }}
-                  />
-                </Box>
-              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                  marginTop: "10px",
+                }}
+              >
+                {previews.map((preview, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: "relative",
+                      width: "100px",
+                      height: "100px",
+                    }}
+                  >
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <IconButton
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        color: "red",
+                      }}
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-
             <TextField
               fullWidth
               size="small"

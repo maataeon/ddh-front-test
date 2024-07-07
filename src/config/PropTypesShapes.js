@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class PropTypesShapes {
   static precioShape = PropTypes.shape({
@@ -10,10 +10,11 @@ class PropTypesShapes {
     id: PropTypes.string.isRequired,
     titulo: PropTypes.string.isRequired,
     precio: PropTypesShapes.precioShape,
+    precios: PropTypes.array.isRequired,
   });
 
   static categoriaShape = PropTypes.shape({
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
   });
 }
 

@@ -7,6 +7,7 @@ import config from "../../../config/config";
 //import GaleriaDeImagenes from "../../../components/galeriaImagenes/GaleriaImagenes";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { useSelector } from "react-redux";
+import GaleriaDeImagenes from "../../../components/galeriaImagenes/GaleriaImagenes";
 
 const Producto = ({ categoria, producto }) => {
   const permisos = useSelector((state) => state.auth.permisos);
@@ -34,36 +35,34 @@ const Producto = ({ categoria, producto }) => {
       <div className="Producto">
         {/*<GaleriaDeImagenes imagenes={producto.imagenes ?? []} />*/}
         <div className="Producto-Portada">
-          <img
-            src={`${config.apiUrl}/imagen/${producto.imagen}`}
-            alt={producto.nombre}
-          />
+          <GaleriaDeImagenes imagenes={producto.images ?? []} />
         </div>
         <div className="Producto-Informacion">
           <Typography variant="h3">{producto.nombre}</Typography>
           {isAuthenticated ? (
-            <Typography
-              variant="h4"
-              align="right"
-              style={{ margin: "3rem 0 5rem 0" }}
-            >
-              {`$ ${producto?.precio}`}
-            </Typography>
+            producto.precios.map((precio) => (
+              <div key={precio.idPerfil} className="Producto-Precio">
+                <Typography variant="h5" align="left">
+                  {precio?.nombre}
+                </Typography>
+                <Typography variant="h4" align="right">
+                  {`$ ${precio?.precio}`}
+                </Typography>
+              </div>
+            ))
           ) : (
             <Link
               to={`/login?redirect=${window.location.pathname}`}
               className="Producto-VerPrecio"
             >
-              <Typography
-                variant="h4"
-                align="right"
-                style={{ margin: "3rem 0 5rem 0" }}
-              >
+              <Typography variant="h4" align="right">
                 Ver precios
               </Typography>
             </Link>
           )}
-          <Typography variant="h5">{producto.descripcion}</Typography>
+          <Typography className="Producto-Descripcion">
+            {producto.descripcion}
+          </Typography>
         </div>
       </div>
     </div>

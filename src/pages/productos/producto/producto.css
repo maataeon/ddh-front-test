@@ -5,7 +5,7 @@
 
 .Producto {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .Producto-Imagenes-Portada {
@@ -61,10 +61,29 @@ p.Volver-Texto {
 
 
 .Producto-Informacion {
-    max-width: 30rem;
+    width: 30rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    background-color: #f0f0f0;
+}
+
+.Producto-Precio {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    align-items: center;
 }
 
 a.Producto-VerPrecio {
     text-decoration: underline;
     color: #F6831F;
+}
+
+p.Producto-Descripcion {
+    margin-top: 2rem;
+    background-color: #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 1rem;
 }

@@ -8,6 +8,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   --header-height: 4rem;
+  --background-color: #eee;
 }
 
 body {
@@ -17,7 +18,7 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   color: #111;
-  background-color: #f7f7f7;
+  background-color: var(--background-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
